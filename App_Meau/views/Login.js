@@ -1,31 +1,53 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, SafeAreaView, TextInput, Button } from 'react-native';
+import { KeyboardAvoidingView, Platform, TextInput, Image, TouchableOpacity, Text, View, Button } from 'react-native';
+import { useState, useEffect } from 'react';
 import { css } from '../assets/css/Css';
 
 const Separator = () => <View style={css.separator} />;
 
 export default function App() {
+
+  const [email, setEmail] = useState(null)
+  const [password, setPassword] = useState(null)
+
+  const [display, setDisplay]=useState('none');
+
+  const entrar = () => {
+    alert('Ainda não implementado')
+    console.log("Entrou")
+    console.log(email)
+    console.log(password)
+  }
+
   return (
-    
-    <SafeAreaView style={css.container}>
-      
-      <Text style={css.title}>Login</Text>
-      
-      <Separator/>
+    <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={[css.container, css.bg]}>
 
-      <Text>Usuário:</Text>
-      <TextInput style={css.input} placeholder='E-mail'></TextInput>
+      <View style = {css.login__logomarca}>
+        <Image source={require('../assets/img/logo.png')}/>
+      </View>
 
-      <Separator/>
+      <View>
+        <Text style={css.login__msg(display)}>Usuário ou senha inválidos!</Text>
+      </View>
 
-      <Text>Senha:</Text>
-      <TextInput style={css.input} placeholder='Senha'></TextInput>
-  
-      <Separator/>
+      <View style={css.login__form}>      
+        <TextInput style={css.login__input}
+          placeholder="E-mail"
+          onChangeText={value => setEmail(value)}
+          keyboardType="email-address"
+        />
+        <TextInput style={css.login__input}
+          placeholder="Senha"
+          leftIcon={{ type: 'font-awesome', name: 'lock' }}
+          onChangeText={value => setPassword(value)}
+          secureTextEntry={true}
+        />
+        <TouchableOpacity style={css.login__button} onPress={() => setDisplay('flex')}>
+          <Text style={css.login__buttonText}>Entrar</Text>
+        </TouchableOpacity>
 
-      <Button title='Entrar' onPress={ () => alert('Ainda não implementado')}/>
-
-      <StatusBar style="auto" />
-    </SafeAreaView>
+        <StatusBar style="auto" />
+      </View>
+    </KeyboardAvoidingView>
   );
 }

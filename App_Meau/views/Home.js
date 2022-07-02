@@ -6,10 +6,10 @@ import { css } from '../assets/css/Css';
 export default function Home({navigation}){
   return(
     <View css={css.container_home}>
-        <Text>Olá!</Text>
-        <Text>Bem vindo ao Meau!</Text>
-        <Text>Aqui você pode adotar e doar</Text>
-        <Text>cães com facilidade.</Text>
+        <Text style={css.title}>Olá!</Text>
+        <Text style={css.title}>Bem vindo ao Meau!</Text>
+        <Text style={css.title}>Aqui você pode adotar e doar</Text>
+        <Text style={css.title}>cães com facilidade.</Text>
         <Button title="Login" onPress={() => navigation.navigate('Login')} />
     </View>
   );
