@@ -1,15 +1,13 @@
 import { StyleSheet } from "react-native";
 
 const css = StyleSheet.create({
-    container: {
-      flex: 5,
-      backgroundColor: '#fff',
+    container_home: {
+      flex: 1,
+      backgroundColor: '#f0f',
       alignItems: 'center',
       justifyContent: 'center',
     },
-});
 
-const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#DDD',
@@ -29,7 +27,7 @@ const styles = StyleSheet.create({
       borderBottomWidth: StyleSheet.hairlineWidth,
     },
   
-    tilte: {
+    title: {
       fontSize: 30,
       color: '#000',
     }
