@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { css } from '../assets/css/Css';
 import { auth } from '../firebase';
 import { useNavigation } from '@react-navigation/native';
+//import firestore from '@react-native-firebase/firestore';
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -26,7 +27,8 @@ const Login = () => {
         const user = userCredentials.user;
         console.log('Registrado com: ',user.email);
       })
-      .catch(error => alert(error.message))
+      .catch(error => alert(error.message));
+    navigation.navigate('Registrar')
   }
 
   const loginSignIn = () => {
