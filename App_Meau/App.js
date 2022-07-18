@@ -1,30 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Button from './src/components/Button';
+import Home from './views/Home';
+import Login from './views/Login';
+import LoginScreen from './views/LoginScreen';
 
 export default function App() {
-  const signIn = () => {
-    alert('Login ok');
-  }
+
+  const Stack = createNativeStackNavigator();
 
   return (
-    <View style={styles.container}>
-      <Text>Olá!</Text>
-      <Text>Bem vindo ao Meau!</Text>
-      <Text>Aqui você pode adotar e doar</Text>
-      <Text>cães com facilidade.</Text>
-      <Text></Text>
-      <Button labelButton="Login" onpress={signIn} />
-    </View>
+     <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" options={{headerShown:false}} component={Home} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 5,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
