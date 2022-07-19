@@ -24,7 +24,7 @@ const Registrar = () => {
       telefone: parseInt(tel),
     })
     .then(() => {
-      console.log(name, "cadastardo com sucesso!!");
+      console.log(name, "cadastrado com sucesso!!");
       navigation.replace("LoginScreen")
     })
     .catch((error) => {
