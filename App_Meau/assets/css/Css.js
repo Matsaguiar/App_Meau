@@ -52,6 +52,21 @@ const css = StyleSheet.create({
       marginBottom: 10
     },
 
+    registrarForm: {
+      width: "80%"
+    },
+
+    registrarInput: {
+      backgroundColor: "#fff",
+      fontSize: 19,
+      padding: 7,
+      marginBottom: 15
+    },
+
+    registrarLogomarca: {
+      marginBottom: 10
+    },
+
     buttonContainer: {
       width: '60%',
       justifyContent: 'center',

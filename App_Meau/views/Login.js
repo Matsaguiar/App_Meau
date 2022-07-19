@@ -18,12 +18,17 @@ const Login = () => {
   useEffect(() => {
     const logOut = auth.onAuthStateChanged(user => {
       if(user){
-        if(users_collection.doc(user.email).exists){
-          navigation.replace("LoginScreen")
-        }
-        else{
-          console.log('Esse brother n ta na base de dados: ',user.email);
-        }
+        users_collection.doc(user.email).get().then((doc) => {
+          if(doc.exists){
+            navigation.replace("LoginScreen")
+          }
+          else{
+            console.log("Email: ", user.email);
+            navigation.replace("Registrar")
+          }
+        }).catch((error) => {
+          console.log("Error getting document:", error);
+        });
       }
     })
     return logOut;
