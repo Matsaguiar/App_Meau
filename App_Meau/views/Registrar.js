@@ -3,7 +3,7 @@ import React from 'react';
 import { Text, View, TouchableOpacity, Image, KeyboardAvoidingView } from 'react-native';
 import { css } from '../assets/css/Css';
 
-const Home = () => {
+const Registrar = () => {
   const navigation = useNavigation()
   return(
     <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={[css.container, css.bg]}>
@@ -29,4 +29,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Registrar

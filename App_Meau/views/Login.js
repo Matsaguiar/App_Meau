@@ -1,34 +1,43 @@
 import { KeyboardAvoidingView, Platform, TextInput, Image, TouchableOpacity, Text, View } from 'react-native';
 import { useState, useEffect } from 'react';
 import { css } from '../assets/css/Css';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
 import { useNavigation } from '@react-navigation/native';
-//import firestore from '@react-native-firebase/firestore';
+import { collection } from '@react-native-firebase/firestore'
+
 
 const Login = () => {
+  const users_collection = db.collection('Usuários');
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const navigation = useNavigation() 
+  const navigation = useNavigation()  
+
 
   useEffect(() => {
     const logOut = auth.onAuthStateChanged(user => {
       if(user){
-        navigation.replace("LoginScreen")
+        if(users_collection.doc(user.email).exists){
+          navigation.replace("LoginScreen")
+        }
+        else{
+          console.log('Esse brother n ta na base de dados: ',user.email);
+        }
       }
     })
-    return logOut
+    return logOut;
   }, [])
 
+
   const loginSignUp = () => {
-    auth
+    response = auth
       .createUserWithEmailAndPassword(email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Registrado com: ',user.email);
       })
       .catch(error => alert(error.message));
-    navigation.navigate('Registrar')
   }
 
   const loginSignIn = () => {
