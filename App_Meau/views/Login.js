@@ -7,6 +7,7 @@ import { collection } from '@react-native-firebase/firestore'
 
 
 const Login = () => {
+  
   const users_collection = db.collection('Usuários');
 
   const [email, setEmail] = useState('')
@@ -36,7 +37,8 @@ const Login = () => {
 
 
   const loginSignUp = () => {
-    response = auth
+    // response = auth
+    auth
       .createUserWithEmailAndPassword(email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
@@ -56,7 +58,7 @@ const Login = () => {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={[css.container, css.bg]}>
+    <KeyboardAvoidingView /*behavior={Platform.OS == "ios" ? "padding" : "height"}*/ style={[css.container, css.bg]}>
 
       <View style = {css.loginLogomarca}>
         <Image source={require('../assets/img/logo.png')}/>

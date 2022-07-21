@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -20,5 +21,6 @@ export default function App() {
         <Stack.Screen name="Registrar" component={Registrar} />
       </Stack.Navigator>
     </NavigationContainer>
+
   );
 }

@@ -42,7 +42,7 @@ const Registrar = () => {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={[css.container, css.bg]}>
+    <KeyboardAvoidingView /*behavior={Platform.OS == "ios" ? "padding" : "height"}*/ style={[css.container, css.bg]}>
 
       <View style = {css.registrarLogomarca}>
         <Image source={require('../assets/img/logo.png')}/>
