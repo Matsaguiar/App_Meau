@@ -2,14 +2,14 @@ import { StyleSheet } from "react-native";
 
 const css = StyleSheet.create({
     container_home: {
-      flex: 1,
+      flex: 10,
       backgroundColor: '#ffffff',
       alignItems: 'center',
       justifyContent: 'center',
     },
 
     container: {
-      flex: 1,
+      flex: 5,
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
@@ -34,7 +34,7 @@ const css = StyleSheet.create({
     },
 
     bg: {
-      backgroundColor: "#f5f5f5"
+      backgroundColor: "#fff"
     },
 
     loginForm: {
@@ -42,7 +42,7 @@ const css = StyleSheet.create({
     },
 
     loginInput: {
-      backgroundColor: "#fff",
+      backgroundColor: "#f5f5f5",
       fontSize: 19,
       padding: 7,
       marginBottom: 15

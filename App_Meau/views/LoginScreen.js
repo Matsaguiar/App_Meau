@@ -12,7 +12,7 @@ const LoginScreen = () => {
     auth
       .signOut()
       .then(() => {
-        navigation.replace("Login")
+        navigation.replace("Home")
       })
       .catch(error => alert(error.message)) 
   }
