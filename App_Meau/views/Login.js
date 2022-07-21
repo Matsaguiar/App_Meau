@@ -36,7 +36,7 @@ const Login = () => {
       <View style = {css.loginLogomarca}>
         <Image source={require('../assets/img/logo.png')}/>
       </View>
-
+      <View style={css.registration}></View>
       <View style={css.loginForm}>   
         <TextInput style={css.loginInput}
           placeholder="E-mail"
@@ -51,15 +51,28 @@ const Login = () => {
           onChangeText={text => setPassword(text)}
           secureTextEntry
         />
+        <Text 
+          style={css.forgetPassword}
+          onPress={() => alert('Esqueceu')}
+        >
+          Esqueceu sua senha?
+        </Text>
       </View>
 
       <View style={css.buttonContainer}>
         <TouchableOpacity  
           onPress={loginSignIn}
-          style={css.button}
+          style={css.buttonGreen}
         >
-          <Text style={css.buttonText}>Entrar</Text>
+          <Text style={css.button}>Entrar</Text>
         </TouchableOpacity>
+        <Text 
+          style={css.greenText}
+          onPress={() => navigation.navigate("Register")}
+        >
+          Criar nova conta 
+        </Text>
+      <View style={{height:100}}/>
       </View>
     </KeyboardAvoidingView>
   )

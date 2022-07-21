@@ -13,23 +13,18 @@ const Home = () => {
       </View>
 
       <View style={css.container_home}>
-        <Text style={css.title}>Olá!</Text>
+        <Text style={css.titleOla}>Olá!</Text>
         <Text style={css.title}>Bem vindo ao Meau!</Text>
-        <Text style={css.title}>Aqui você pode adotar e doar cães com facilidade.</Text>
+        <Text style={css.title}>Aqui você pode adotar</Text>
+        <Text style={css.title}>e doar cães com facilidade.</Text>
       </View>
 
       <View style={css.buttonContainer}>
         <TouchableOpacity
           onPress={() => navigation.navigate('Login')}
-          style={css.button}
+          style={css.buttonYellow}
         >
-          <Text style={css.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Register')}
-          style={[css.button, css.buttonOutline]}
-        >
-          <Text style={css.buttonOutlineText}>Registrar-se</Text>
+          <Text style={css.buttonText}>LOGIN</Text>
         </TouchableOpacity>
       </View>
       </KeyboardAvoidingView>

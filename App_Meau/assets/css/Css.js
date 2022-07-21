@@ -9,12 +9,16 @@ const css = StyleSheet.create({
     },
 
     container: {
-      flex: 5,
+      flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
     },
-  
+    
+    specificContainer:{
+      padding: 5
+    },
+
     input : {
       height: 35,
       borderWidth : 2,
@@ -24,12 +28,16 @@ const css = StyleSheet.create({
     separator: {
       marginVertical: 8,
       borderBottomColor: '#737373',
-      borderBottomWidth: StyleSheet.hairlineWidth,
     },
-  
+    
+    titleOla:{
+      fontSize: 72,
+      color: '#ffd358'
+    },
+
     title: {
       fontSize: 35,
-      color: '#000',
+      color: '#757575',
       alignItems: 'center',
     },
 
@@ -42,10 +50,11 @@ const css = StyleSheet.create({
     },
 
     loginInput: {
-      backgroundColor: "#f5f5f5",
+      backgroundColor: "#fff",
       fontSize: 19,
       padding: 7,
-      marginBottom: 15
+      marginBottom: 15,
+      borderBottomWidth: StyleSheet.hairlineWidth,
     },
 
     loginLogomarca: {
@@ -56,11 +65,19 @@ const css = StyleSheet.create({
       width: '60%',
       justifyContent: 'center',
       alignItems: 'center',
-      marginTop: 40,
+      marginTop: 20,
     },
 
-    button: {
-      backgroundColor: '#0782F9',
+    buttonYellow: {
+      backgroundColor: '#ffd358',
+      width: '100%',
+      padding: 15,
+      borderRadius: 10,
+      alignItems: 'center',
+    },
+
+    buttonGreen: {
+      backgroundColor: '#88c9bf',
       width: '100%',
       padding: 15,
       borderRadius: 10,
@@ -75,8 +92,8 @@ const css = StyleSheet.create({
     },
 
     buttonText: {
-      color: 'white',
-      fontWeight: '700',
+      color: '#434343',
+      fontWeight: '400',
       fontSize: 16,
     }, 
 
@@ -90,6 +107,17 @@ const css = StyleSheet.create({
       flex: 1, 
       justifyContent: 'center',
       alignItems: 'center',
+    },
+
+    greenText:{
+      marginTop:20,
+      marginVertical: 8,
+      color: '#88C9bf',
+    },
+
+    forgetPassword:{
+      marginTop:5,
+      marginVertical: 8,
     }
 
   });

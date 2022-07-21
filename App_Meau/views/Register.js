@@ -65,15 +65,16 @@ const Register = () => {
   }
 
   return (
-    //<KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={[css.container, css.bg]}>
-    <KeyboardAvoidingView style={[css.container, css.bg]}>
-
+    <KeyboardAvoidingView 
+      behavior={Platform.OS == "ios" ? "padding" : "height"} 
+      style={[css.container, css.bg]}>
+      
       <View style = {css.loginLogomarca}>
         <Image source={require('../assets/img/logo.png')}/>
       </View>
 
       <View style={css.loginForm}>   
-        <Text>INFORMAÇÕES DE PERFIL</Text>   
+        <Text style={[css.separator, css.greenText]}>INFORMAÇÕES DE PERFIL</Text>   
         <TextInput style={css.loginInput}
           placeholder="E-mail"
           value = {email}
@@ -94,7 +95,7 @@ const Register = () => {
           onChangeText={text => setConfirmPass(text)}
           secureTextEntry
         />
-        <Text>INFORMAÇÕES PESSOAIS</Text>
+        <Text style={[css.separator, css.greenText]}>INFORMAÇÕES PESSOAIS</Text>
         <TextInput style={css.loginInput}
           placeholder="Nome Completo"
           value = {fullName}
@@ -105,6 +106,7 @@ const Register = () => {
           value = {age}
           onChangeText={text => setAge(text)}
           keyboardType="number-pad"
+          returnKeyLabel="OK"
         />
         <TextInput style={css.loginInput}
           placeholder="Estado"
@@ -125,13 +127,14 @@ const Register = () => {
           placeholder="Telefone"
           value = {phone}
           onChangeText={text => setPhone(text)}
+          returnKeyLabel="OK"
         />
       </View>
 
       <View style={css.buttonContainer}>
         <TouchableOpacity 
           onPress={loginSignUp}
-          style={[css.button, css.button]}
+          style={[css.buttonGreen]}
         >
           <Text style={css.buttonText}>Fazer Cadastro</Text>
         </TouchableOpacity>
