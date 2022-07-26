@@ -12,7 +12,7 @@ const LoginScreen = () => {
     auth
       .signOut()
       .then(() => {
-        navigation.replace("Login")
+        navigation.replace("Home")
       })
       .catch(error => alert(error.message)) 
   }
@@ -21,7 +21,7 @@ const LoginScreen = () => {
       <Text>Bem vindo: {auth.currentUser?.email}</Text>
       <TouchableOpacity 
         onPress={hendleSignOut}
-        style={css.button}
+        style={css.buttonGreen}
       > 
         <Text style={css.buttonText}>Sair</Text>
       </TouchableOpacity>
