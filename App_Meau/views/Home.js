@@ -7,8 +7,8 @@ const Home = () => {
   const navigation = useNavigation()
   return(
     //<KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={[css.container, css.bg]}>
-    <KeyboardAvoidingView style={[css.container, css.bg]}>
-      <View style={[css.container, css.bg, css.loginLogomarca]}>
+    <KeyboardAvoidingView style={css.container}>
+      <View style={css.loginLogomarca}>
         <Image source={require('../assets/img/logo.png')} />
       </View>
 
@@ -16,7 +16,8 @@ const Home = () => {
         <Text style={css.titleOla}>Olá!</Text>
         <Text style={css.title}>Bem vindo ao Meau!</Text>
         <Text style={css.title}>Aqui você pode adotar</Text>
-        <Text style={css.title}>e doar cães com facilidade.</Text>
+        <Text style={css.title}>e doar cães com</Text>
+        <Text style={css.title}>facilidade.</Text>
       </View>
 
       <View style={css.buttonContainer}>
