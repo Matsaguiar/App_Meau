@@ -4,27 +4,15 @@ import { css } from '../assets/css/Css';
 import { auth } from '../firebase';
 import { useNavigation } from '@react-navigation/native';
 
-const Login = () => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState(null)
-  const [password, setPassword] = useState(null)
   const [errorEmail, setErrorEmail] = useState(null)
-  const [errorPassword, setErrorPassword] = useState(null)
 
   const navigation = useNavigation() 
-
-  useEffect(() => {
-    const logOut = auth.onAuthStateChanged(user => {
-      if(user){
-        navigation.replace("LoginScreen")
-      }
-    })
-    return logOut
-  }, [])
 
   const validate = () => {
     let error = false
     setErrorEmail(null)
-    setErrorPassword(null)
 
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
@@ -32,20 +20,16 @@ const Login = () => {
       setErrorEmail("Informe o e-mail corretamente!")
       error = true
     }
-    if(password == null){
-      setErrorPassword("Insira a senha!")
-      error = true
-    }
     return !error;
   }
 
-  const loginSignIn = () => {
+  const sendEmail = () => {
     if(validate()){
       auth
-        .signInWithEmailAndPassword(email, password)
+        .sendPasswordResetEmail(email)
         .then(userCredentials => {
-          const user = userCredentials.user;
-          console.log('Login com: ',user.email);
+          //const user = userCredentials.user;
+          console.log('Email enviado para: '+email);
       })
       .catch(error => alert(error.message))
     }else{
@@ -72,42 +56,21 @@ const Login = () => {
           keyboardType="email-address"
         />
         <Text style={css.errorMessage}>{errorEmail}</Text>
-        <TextInput style={css.loginInput}
-          placeholder="Senha"
-          value = {password}
-          leftIcon={{ type: 'font-awesome', name: 'lock' }}
-          onChangeText={value => {
-            setPassword(value)
-            setErrorPassword(null)
-          }}
-          secureTextEntry
-        />
-        <Text style={css.errorMessage}>{errorPassword}</Text>
-        <Text 
-          style={css.forgetPassword}
-          onPress={() => navigation.navigate("ForgotPassword")}
-        >
-          Esqueceu sua senha?
-        </Text>
       </View>
 
       <View style={css.buttonContainer}>
         <TouchableOpacity  
-          onPress={loginSignIn}
+          onPress={sendEmail}
           style={css.buttonGreen}
         >
-          <Text style={css.button}>Entrar</Text>
+          <Text 
+          style={css.button} 
+          onPress={() => [alert('Verifique o SPAM! Siga as orientações no email enviado para altereção da senha.'), navigation.navigate("Login")]}>Enviar e-mail</Text>
         </TouchableOpacity>
-        <Text 
-          style={css.greenText}
-          onPress={() => navigation.navigate("Register")}
-        >
-          Criar nova conta 
-        </Text>
       <View style={{height:100}}/>
       </View>
     </KeyboardAvoidingView>
   )
 }
 
-export default Login
+export default ForgotPassword

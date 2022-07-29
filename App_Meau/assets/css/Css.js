@@ -2,8 +2,8 @@ import { StyleSheet } from "react-native";
 
 const css = StyleSheet.create({
     container_home: {
-      flex: 10,
-      backgroundColor: '#ffffff',
+      flex: 0,
+      backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -41,14 +41,6 @@ const css = StyleSheet.create({
       alignItems: 'center',
     },
 
-    bg: {
-      backgroundColor: "#fff"
-    },
-
-    loginForm: {
-      width: "80%"
-    },
-
     loginInput: {
       backgroundColor: "#fff",
       fontSize: 19,
@@ -58,14 +50,25 @@ const css = StyleSheet.create({
     },
 
     loginLogomarca: {
-      marginBottom: 10
+      marginTop: 15,
+      marginBottom: 60,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
 
     buttonContainer: {
-      width: '60%',
+      width: '80%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 70,
+    },
+
+    buttonContainer_Scroll: {
+      width: '80%',
       justifyContent: 'center',
       alignItems: 'center',
       marginTop: 20,
+      marginLeft: 40,
     },
 
     buttonYellow: {
@@ -118,7 +121,14 @@ const css = StyleSheet.create({
     forgetPassword:{
       marginTop:5,
       marginVertical: 8,
-    }
+    },
+
+    errorMessage: {
+      alignSelf: "flex-start",
+      marginLeft: 15,
+      color: "#f00",
+      fontSize: 12
+    },
 
   });
 
