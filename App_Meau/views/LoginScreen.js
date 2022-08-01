@@ -16,8 +16,15 @@ const LoginScreen = () => {
       })
       .catch(error => alert(error.message)) 
   }
+
+  const Test = () => {
+    console.log("Test")
+    navigation.replace("AnimalRegister")
+  }
+
   return (
     <View style={css.container}>
+
       <Text>Bem vindo: {auth.currentUser?.email}</Text>
       <TouchableOpacity 
         onPress={hendleSignOut}
@@ -25,6 +32,14 @@ const LoginScreen = () => {
       > 
         <Text style={css.buttonText}>Sair</Text>
       </TouchableOpacity>
+      
+      <TouchableOpacity 
+        onPress={Test}
+        style={css.buttonGreen}
+      > 
+        <Text style={css.buttonText}>Cadastrar Animal</Text>
+      </TouchableOpacity>
+
     </View>
   )
 }

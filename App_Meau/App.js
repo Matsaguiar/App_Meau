@@ -7,6 +7,7 @@ import Login from './views/Login';
 import Register from './views/Register';
 import LoginScreen from './views/LoginScreen';
 import ForgotPassword from './views/ForgotPassword';
+import AnimalRegister from './views/AnimalRegister';
 
 export default function App() {
 
@@ -15,11 +16,13 @@ export default function App() {
   return (
      <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" options={{headerShown:false}} component={Home} />
+        {/* <Stack.Screen name="Home" options={{headerShown:false}} component={Home} /> */}
+        <Stack.Screen name="Home" options={{headerShown:false}} component={LoginScreen} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+        <Stack.Screen name="AnimalRegister" component={AnimalRegister} />
       </Stack.Navigator>
     </NavigationContainer>
   );
