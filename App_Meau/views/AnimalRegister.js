@@ -26,7 +26,8 @@ const AnimalRegister = () => {
             .set({
                 Nome: name,
                 Raca: breed,
-                // age: parseInt(age),
+                age: parseInt(age),
+                dono: 'Users/' + auth.currentUser?.email
             })
             .then(() => {
                 console.log(name, " - idade:", age, " - Cadastrado com sucesso");
