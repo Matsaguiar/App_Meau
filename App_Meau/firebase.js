@@ -4,6 +4,7 @@ import { initializeApp } from "firebase/app"
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/storage'
 
 const firebaseConfig = {
     apiKey: "AIzaSyAGVTcQkM2p1_pFlekCZhZbAWWA51hzf3I",
@@ -23,9 +24,11 @@ if (firebase.apps.length === 0) {
 
 const db = firebase.firestore();
 const auth = firebase.auth();
+const storage = firebase.storage();
+// const storage = firebase.storage();
 
 // export {auth}
-export { auth, db }
+export { auth, db, storage}
 
 
 ////////////////////////////////////////////////////////////////////// OUTRO DB //////////////////////////////////////////////////////////////////////

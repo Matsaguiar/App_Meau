@@ -1166,10 +1166,36 @@
     "xcode" "^3.0.1"
     "xml2js" "0.4.23"
 
+"@expo/config-plugins@~5.0.0":
+  "integrity" "sha512-Bgjgv64f/XqpXXKPAoGhc5dbmuJB8eOBkhV6FMI/RMP06HfL7EQvXgcBBoJThLAZVyd29XikFgaCvABt/NavxQ=="
+  "resolved" "https://registry.npmjs.org/@expo/config-plugins/-/config-plugins-5.0.0.tgz"
+  "version" "5.0.0"
+  dependencies:
+    "@expo/config-types" "^46.0.0"
+    "@expo/json-file" "8.2.36"
+    "@expo/plist" "0.0.18"
+    "@expo/sdk-runtime-versions" "^1.0.0"
+    "@react-native/normalize-color" "^2.0.0"
+    "chalk" "^4.1.2"
+    "debug" "^4.3.1"
+    "find-up" "~5.0.0"
+    "getenv" "^1.0.0"
+    "glob" "7.1.6"
+    "resolve-from" "^5.0.0"
+    "semver" "^7.3.5"
+    "slash" "^3.0.0"
+    "xcode" "^3.0.1"
+    "xml2js" "0.4.23"
+
 "@expo/config-types@^45.0.0":
   "integrity" "sha512-/QGhhLWyaGautgEyU50UJr5YqKJix5t77ePTwreOVAhmZH+ff3nrrtYTTnccx+qF08ZNQmfAyYMCD3rQfzpiJA=="
   "resolved" "https://registry.npmjs.org/@expo/config-types/-/config-types-45.0.0.tgz"
   "version" "45.0.0"
+
+"@expo/config-types@^46.0.0":
+  "integrity" "sha512-LQWGDagQ0YXGSJyLomNDZrYXj/cUP+wczs9y2M8MB9UDoSU6dbLRMiSX0FMhhKKdxBK0p92VQxZyqOzGpIYfSw=="
+  "resolved" "https://registry.npmjs.org/@expo/config-types/-/config-types-46.0.1.tgz"
+  "version" "46.0.1"
 
 "@expo/config@^6.0.14", "@expo/config@~6.0.23", "@expo/config@6.0.24":
   "integrity" "sha512-OcACI1md1Yo5TQmUxxueJ/RaTlR2Mgl6KswTFOYCL1XJERF/jjAx95zhWXH+JQGdlM0yB0vqM6vB6GbUFRvLxA=="
@@ -3537,6 +3563,20 @@
   "version" "10.1.0"
   dependencies:
     "fontfaceobserver" "^2.1.0"
+
+"expo-image-loader@~3.2.0":
+  "integrity" "sha512-LU3Q2prn64/HxdToDmxgMIRXS1ZvD9Q3iCxRVTZn1fPQNNDciIQFE5okaa74Ogx20DFHs90r6WoUd7w9Af1OGQ=="
+  "resolved" "https://registry.npmjs.org/expo-image-loader/-/expo-image-loader-3.2.0.tgz"
+  "version" "3.2.0"
+
+"expo-image-picker@^13.3.1":
+  "integrity" "sha512-IY84uDu9uxetAup5yw0CIIujigl/lM3grwyfpeZFMKGmWHzmKamptjd/sG8K65xkb6tF9awmGMW0qglHQ9hakQ=="
+  "resolved" "https://registry.npmjs.org/expo-image-picker/-/expo-image-picker-13.3.1.tgz"
+  "version" "13.3.1"
+  dependencies:
+    "@expo/config-plugins" "~5.0.0"
+    "expo-image-loader" "~3.2.0"
+    "uuid" "7.0.2"
 
 "expo-keep-awake@~10.1.1":
   "integrity" "sha512-9zC0sdhQljUeMr2yQ7o4kzEZXVAy82fFOAZE1+TwPL7qR0b0sphe7OJ5T1GX1qLcwuVaJ8YewaPoLSHRk79+Rg=="
@@ -7356,6 +7396,11 @@
   "integrity" "sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg=="
   "resolved" "https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz"
   "version" "8.3.2"
+
+"uuid@7.0.2":
+  "integrity" "sha512-vy9V/+pKG+5ZTYKf+VcphF5Oc6EFiu3W8Nv3P3zIh0EqVI80ZxOzuPfe9EHjkFNvf8+xuTHVeei4Drydlx4zjw=="
+  "resolved" "https://registry.npmjs.org/uuid/-/uuid-7.0.2.tgz"
+  "version" "7.0.2"
 
 "valid-url@~1.0.9":
   "integrity" "sha512-QQDsV8OnSf5Uc30CKSwG9lnhMPe6exHtTXLRYX8uMwKENy640pU+2BgBL0LRbDh/eYRahNCS7aewCx0wf3NYVA=="
