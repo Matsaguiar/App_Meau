@@ -80,8 +80,9 @@ const css = StyleSheet.create({
     },
 
     buttonGreen: {
+      marginTop: 45,
       backgroundColor: '#88c9bf',
-      width: '100%',
+      width: '50%',
       padding: 15,
       borderRadius: 10,
       alignItems: 'center',
