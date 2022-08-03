@@ -17,8 +17,7 @@ const LoginScreen = () => {
       .catch(error => alert(error.message)) 
   }
 
-  const Test = () => {
-    console.log("Test")
+  const registerAnimal = () => {
     navigation.replace("AnimalRegister")
   }
 
@@ -34,7 +33,7 @@ const LoginScreen = () => {
       </TouchableOpacity>
       
       <TouchableOpacity 
-        onPress={Test}
+        onPress={registerAnimal}
         style={css.buttonGreen}
       > 
         <Text style={css.buttonText}>Cadastrar Animal</Text>
