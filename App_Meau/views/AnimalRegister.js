@@ -53,8 +53,11 @@ const AnimalRegister = () => {
         )
 
         user_collection.doc(auth.currentUser?.email)
-            .update({
-                animals: animals_collections.doc(name)
+            .collection("Meus_animais").add({
+                Referencia: animals_collections.doc(name),
+                Nome: name,
+                Raca: breed,
+                age: parseInt(age)
             })
             .then(() => {
                 console.log("Animais atualizados com sucesso");
