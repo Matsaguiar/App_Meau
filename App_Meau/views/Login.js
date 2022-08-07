@@ -1,10 +1,12 @@
 import { KeyboardAvoidingView, Platform, TextInput, Image, TouchableOpacity, Text, View } from 'react-native';
 import { useState, useEffect } from 'react';
 import { css } from '../assets/css/Css';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
 import { useNavigation } from '@react-navigation/native';
 
 const Login = () => {
+  const users_collection = db.collection('Users')
+
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
   const [errorEmail, setErrorEmail] = useState(null)
@@ -14,10 +16,18 @@ const Login = () => {
 
   useEffect(() => {
     const logOut = auth.onAuthStateChanged(user => {
-      if(user){
-        navigation.replace("LoginScreen")
-      }
-    })
+        if(user){
+          users_collection.doc(user.email).get().then((docSnapshot) => {
+            if(docSnapshot.exits){
+              navigation.replace("LoginScreen")
+            }
+            else{
+              navigation.replace("Register")
+            }
+          })
+        const usersRef = users_collection.doc('id')
+        }
+      })
     return logOut
   }, [])
 

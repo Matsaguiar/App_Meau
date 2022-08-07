@@ -8,7 +8,7 @@ import { collection } from '@react-native-firebase/firestore'
 import { CheckBox } from 'react-native';
 
 export default function Register({}) {
-  const users_collection = db.collection('Users');
+  const users_collection = db.collection('Users')
 
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
@@ -35,7 +35,11 @@ export default function Register({}) {
   useEffect(() => {
     const logOut = auth.onAuthStateChanged(user => {
       if(user){
-        navigation.replace("LoginScreen")
+        users_collection.doc(user.email).get().then((docSnapshot) => {
+            if(docSnapshot.exits){
+              navigation.replace("LoginScreen")
+            }
+          })
       }
     })
     return logOut
@@ -118,14 +122,28 @@ export default function Register({}) {
 
   const loginSignUp = () => {
     if(validate()){
-        auth
-        .createUserWithEmailAndPassword(email, password)
-        .then(userCredentials => {
-            const user = userCredentials.user;
-            console.log('Registrado com: ',user.email);
-            registerSingUp();
-        })
-        .catch(error => alert(error.message))
+      users_collection.doc(email).get().then((docSnapshot) => {
+        if(docSnapshot.exists){
+          auth
+            .signInWithEmailAndPassword(email, password)
+            .then(userCredentials => {
+              const user = userCredentials.user;
+              console.log('Login com: ',user.email);
+              registerSingUp();
+          })
+          .catch(error => alert(error.message))
+        }
+        else{
+          auth
+          .createUserWithEmailAndPassword(email, password)
+          .then(userCredentials => {
+              const user = userCredentials.user;
+              console.log('Registrado com: ',user.email);
+          })
+          .catch(error => alert(error.message))
+        }
+      })
+      registerSingUp();
     }
     else{
       console.log('ERRRRRROOOR')
