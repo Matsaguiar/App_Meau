@@ -119,6 +119,12 @@ const css = StyleSheet.create({
       color: '#88C9bf',
     },
 
+    yellowText:{
+      marginTop:20,
+      marginVertical: 8,
+      color: '#ffd358',
+    },
+
     forgetPassword:{
       marginTop:5,
       marginVertical: 8,

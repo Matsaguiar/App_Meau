@@ -4,7 +4,7 @@ import { css } from '../assets/css/Css'
 import { auth } from '../firebase'
 import { useNavigation } from '@react-navigation/native'
 
-const LoginScreen = () => {
+export default function LoginScreen () {
 
   const navigation = useNavigation()
 
@@ -43,5 +43,3 @@ const LoginScreen = () => {
     </View>
   )
 }
-
-export default LoginScreen
