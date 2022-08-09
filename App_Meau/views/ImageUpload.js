@@ -3,10 +3,16 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { css } from '../assets/css/Css';
 import {auth, db, storage} from '../firebase';
+import uuid from 'react-native-uuid'
 
 const ImageUpload = () => {
 
+    // var imageId;
+    // var imageUri;
     const [image, setImage] = React.useState(null);
+    const [imageId, setImageId] = React.useState(null);
+
+    // const [selectedImage, setSelectedImage] = React.useState(null);
 
     let openImagePickerAsync = async () => {
 
@@ -25,45 +31,18 @@ const ImageUpload = () => {
             return;
         }
 
-        uploadImage(pickerResult.uri, 'gatoTeste.jpg')
-        .then(() => {
-            console.log('Uploaded');
-        }).catch(error => {
-            console.log('ERRO >>>\nA' + error);
-        }); 
-
+        let imgId = uuid.v4()
+    
         setImage(pickerResult.uri);
+        setImageId(imgId);
     }
 
     const uploadImage = async (uri, imageName) => {
-        const response = await fetch(uri);
+
+        const response = await fetch(image);
         const blob = await response.blob();
-        const ref = storage.ref().child('testImages/' + imageName);
+        const ref = storage.ref().child('testImages/' + imageId);
         return ref.put(blob);
-    }
-
-    if(image !== null){
-
-        console.log("entrou");
-
-        const ref = storage.ref().child('testImages/');
-        ref.getDownloadURL().then(url => {
-            console.log(url);
-        }).catch(error => {
-            console.log(error);
-        });
-
-
-        return (
-            <View style={css.container}>
-                <View>
-                    <Image source={{ uri: image }} style={{width:450, height:450}} />
-                </View>
-                <View>
-                    <Text>Uri</Text>
-                </View>
-            </View>
-        );
     }
 
     return(
@@ -74,6 +53,16 @@ const ImageUpload = () => {
 
             <TouchableOpacity
                 onPress={() => openImagePickerAsync()}
+                style={css.buttonYellow}
+            >
+                <Text>Add Image</Text>
+            </TouchableOpacity>
+
+            {image && <Image source={{uri : image}} style={{width : 200, height : 200}}/>}
+            <Text>IMAGE PREVIEW</Text>
+
+            <TouchableOpacity
+                onPress={() => uploadImage()}
                 style={css.buttonYellow}
             >
                 <Text>Upload Image</Text>

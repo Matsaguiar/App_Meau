@@ -5,7 +5,8 @@ import { css } from '../assets/css/Css'
 import { auth, db, storage} from '../firebase'
 import { useNavigation } from '@react-navigation/native'
 import * as ImagePicker from 'expo-image-picker';
-
+import uuid from 'react-native-uuid'; 
+import { Image } from 'react-native'
 
 
 const AnimalRegister = () => {
@@ -25,6 +26,7 @@ const AnimalRegister = () => {
     const [aboutAnimal, setAboutAnimal] = useState('')
     
     const [image, setImage] = useState(null);
+    const [imageUuid, setImageUuid] = useState(null);
 
     const navigation = useNavigation()
     
@@ -39,16 +41,15 @@ const AnimalRegister = () => {
                 Nome: name,
                 Raca: breed,
                 age: parseInt(age),
-                // dono: 'Users/' + auth.currentUser?.email,
                 owner: db.collection('Users').doc(auth.currentUser?.email),
-            })
-            .then(() => {
+                ProfilePicture: imageUuid,
+              })
+              .then(() => {
               Alert.alert(name + ' cadastrado com sucesso!')
-                // console.log(name, " - idade:", age, " - Cadastrado com sucesso");
                 navigation.replace("LoginScreen")
             })
             .catch((error) => {
-                console.error("Erro escrita DB: ", error);
+              console.error("Erro escrita DB: ", error);
             }
         )
 
@@ -57,14 +58,17 @@ const AnimalRegister = () => {
                 Referencia: animals_collections.doc(name),
                 Nome: name,
                 Raca: breed,
-                age: parseInt(age)
-            })
-            .then(() => {
+                age: parseInt(age),
+              })
+              .then(() => {
                 console.log("Animais atualizados com sucesso");
             })
             .catch((error) => {
-                console.error("Erro atualizando DB: ", error);
+              console.error("Erro atualizando DB: ", error);
             });
+
+            console.log("Image: ", image + " ImageUuid: ", imageUuid);
+            uploadImage(image, imageUuid);
     }
 
     
@@ -78,27 +82,24 @@ const AnimalRegister = () => {
       }
   
       let pickerResult = await ImagePicker.launchImageLibraryAsync();
-      // console.log(pickerResult);
 
       if (pickerResult.cancelled === true) {
           console.log("cancelled");
           return;
       }
       
-      uploadImage(pickerResult.uri, 'gatoTeste.jpg')
-      .then(() => {
-        console.log('Uploaded');
-      }).catch(error => {
-        console.log('ERRO >>>\nA' + error);
-      }); 
+      let imageId = uuid.v4();
       
       setImage(pickerResult.uri);
-  }
+      setImageUuid(imageId);
 
-  const uploadImage = async (uri, imageName) => {
+    }
+    
+    const uploadImage = async (uri, imageName) => {
+      
       const response = await fetch(uri);
       const blob = await response.blob();
-      const ref = storage.ref().child('testImages/' + imageName);
+      const ref = storage.ref().child('imgAnimals/' + imageName);
       return ref.put(blob);
   }
 
@@ -130,7 +131,9 @@ const AnimalRegister = () => {
             value = {name}
             onChangeText={(text) => setName(text)}
         />
-        
+
+        {image && <Image source={{uri : image}} style = {{width: 200, height: 200}}/>}
+
         <TouchableOpacity
           style={css.buttonGreen}
           onPress={() => openImagePickerAsync()}

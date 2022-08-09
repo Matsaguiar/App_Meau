@@ -21,9 +21,9 @@ const Login = () => {
             if(docSnapshot.exits){
               navigation.replace("LoginScreen")
             }
-            else{
-              navigation.replace("Register")
-            }
+            // else{
+            //   navigation.replace("Register")
+            // }
           })
         const usersRef = users_collection.doc('id')
         }
@@ -56,6 +56,7 @@ const Login = () => {
         .then(userCredentials => {
           const user = userCredentials.user;
           console.log('Login com: ',user.email);
+          navigation.replace("LoginScreen")
       })
       .catch(error => alert(error.message))
     }else{

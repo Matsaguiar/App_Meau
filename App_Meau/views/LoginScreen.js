@@ -17,6 +17,14 @@ const LoginScreen = () => {
       .catch(error => alert(error.message)) 
   }
 
+  const changeProfilePicture = () => {
+    console.log("changeProfilePicture")
+  }
+
+  const listAnimals = () => {
+    navigation.replace("ListAnimals")
+  }
+
   const registerAnimal = () => {
     navigation.replace("AnimalRegister")
   }
@@ -32,6 +40,20 @@ const LoginScreen = () => {
         <Text style={css.buttonText}>Sair</Text>
       </TouchableOpacity>
       
+    <TouchableOpacity
+      onPress={changeProfilePicture}
+      style={css.buttonGreen}
+    >
+      <Text style={css.buttonText}>Foto Usuário</Text>
+    </TouchableOpacity>
+
+    <TouchableOpacity
+      onPress={listAnimals}
+      style={css.buttonGreen}
+    >
+      <Text style={css.buttonText}>Meus Animais</Text>
+    </TouchableOpacity>
+
       <TouchableOpacity 
         onPress={registerAnimal}
         style={css.buttonGreen}
