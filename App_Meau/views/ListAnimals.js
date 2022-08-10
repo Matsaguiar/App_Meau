@@ -20,11 +20,13 @@ const ListAnimals = () => {
             .then((querySnapshot) => {
                 const animalList = [];
                 querySnapshot.forEach((doc) => {
-                    animalList.push()
+                    // console.log(doc.id, " => ", doc.data().Nome)
+                    animalList.push(doc.data())
                 });
                 setAnimals(animalList)
             }
-        );
+            );
+
     }
 
     useEffect(loadData, []);
@@ -33,6 +35,10 @@ const ListAnimals = () => {
     for(let i = 0; i < animals.length; i++){        
         console.log("Animal" + i + " => " + animals[i])
     }
+
+    // setAnimals(animalList)
+
+    // console.log("animals Length: " + animals.length)
 
     if (image !== null) {
 
@@ -47,7 +53,6 @@ const ListAnimals = () => {
 
     return (
         <View>
-            
             {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
             <Text>List Animais</Text>
         </View>
