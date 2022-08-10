@@ -45,20 +45,21 @@ const AnimalRegister = () => {
                 ProfilePicture: imageUuid,
               })
               .then(() => {
-              Alert.alert(name + ' cadastrado com sucesso!')
+                Alert.alert(name + ' cadastrado com sucesso!')
                 navigation.replace("LoginScreen")
-            })
-            .catch((error) => {
-              console.error("Erro escrita DB: ", error);
-            }
-        )
-
-        user_collection.doc(auth.currentUser?.email)
-            .collection("Meus_animais").add({
+              })
+              .catch((error) => {
+                console.error("Erro escrita DB: ", error);
+              }
+              )
+              
+              user_collection.doc(auth.currentUser?.email)
+              .collection("Meus_animais").add({
                 Referencia: animals_collections.doc(name),
                 Nome: name,
                 Raca: breed,
                 age: parseInt(age),
+                ProfilePicture: imageUuid,
               })
               .then(() => {
                 console.log("Animais atualizados com sucesso");
