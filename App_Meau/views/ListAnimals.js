@@ -14,47 +14,83 @@ const ListAnimals = () => {
 
     const [image, setImage] = useState();
     const [animals, setAnimals] = useState([]);
-
+    
+    
     const loadData = () => {
         db.collection("Users").doc(auth.currentUser?.email).collection("Meus_animais").get()
-            .then((querySnapshot) => {
-                const animalList = [];
-                querySnapshot.forEach((doc) => {
-                    // console.log(doc.id, " => ", doc.data().Nome)
-                    animalList.push(doc.data())
-                });
-                setAnimals(animalList)
-            }
-            );
-
+        .then((querySnapshot) => {
+            const animalList = [];
+            querySnapshot.forEach((doc) => {
+                animalList.push(doc.data())
+            });
+            setAnimals(animalList)
+        }
+        );
     }
 
     useEffect(loadData, []);
+    
 
-    console.log("LENGTH ANIMAL " + animals.length)
-    for(let i = 0; i < animals.length; i++){        
-        console.log("Animal" + i + " => " + animals[i])
-    }
+    const ItemSeparatorView = () => {
+        return (
+          //Item Separator
+          <View
+            style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8' }}
+          />
+        );
+      };
 
-    // setAnimals(animalList)
+    const renderItem = ({ item }) => {
 
-    // console.log("animals Length: " + animals.length)
+        console.log(item)
 
-    if (image !== null) {
+        if(item.ProfilePicture === undefined) {
 
-        const ref = storage.ref('imgAnimals/7d6e67e9-980d-4d2f-947a-c96edb97355e')
-        ref.getDownloadURL().then(url => {
-            console.log(url);
-            setImage(url);
-        }).catch(error => {
-            console.log(error);
-        });
-    }
+            return (
+                <View>
+                    <Text>{item.Nome}</Text>
+                </View>
+            )
+
+        }
+
+        if(item.ProfilePicture !== null) {
+            const ref = storage.ref('imgAnimals/' + item.ProfilePicture)
+                ref.getDownloadURL().then(url => {
+                    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA ENTROU NA FUNCAO")
+                    console.log(url);
+                    setImage(url);
+                    
+                }).catch(error => {
+                    console.log(error);
+                });
+                
+            }
+            
+            return (
+                <View>
+    
+                    {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+                    <Text>{item.Nome}</Text>
+    
+                </View>
+            );
+    };
 
     return (
+
         <View>
-            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-            <Text>List Animais</Text>
+
+            <Text >List Animais</Text>
+
+            <FlatList
+                data = {animals}
+                renderItem = {renderItem}
+                keyExtractor = {(item) => item.Nome}
+                ItemSeparatorComponent = {ItemSeparatorView}
+            />
+
+            {/* {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />} */}
         </View>
     )
 }

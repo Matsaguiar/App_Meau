@@ -7,28 +7,26 @@ import { useNavigation } from '@react-navigation/native';
 const Login = () => {
   const users_collection = db.collection('Users')
 
-  const [email, setEmail] = useState(null)
-  const [password, setPassword] = useState(null)
-  const [errorEmail, setErrorEmail] = useState(null)
-  const [errorPassword, setErrorPassword] = useState(null)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [errorEmail, setErrorEmail] = useState('')
+  const [errorPassword, setErrorPassword] = useState('')
 
   const navigation = useNavigation() 
 
   useEffect(() => {
-    const logOut = auth.onAuthStateChanged(user => {
+    const loginState = auth.onAuthStateChanged(user => {
         if(user){
           users_collection.doc(user.email).get().then((docSnapshot) => {
-            if(docSnapshot.exits){
+            if(docSnapshot.exists){
               navigation.replace("LoginScreen")
             }
-            // else{
-            //   navigation.replace("Register")
-            // }
+            else{
+              // navigation.replace("Register")
+            }
           })
-        const usersRef = users_collection.doc('id')
         }
       })
-    return logOut
   }, [])
 
   const validate = () => {
