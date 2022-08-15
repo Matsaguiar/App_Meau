@@ -20,17 +20,17 @@ const Login = () => {
         const usersRef = users_collection.doc('id')
         users_collection.doc(user.email).get().then((docSnapshot) => {
           if(!docSnapshot.exits){
-            navigation.navigate("LoginScreen")
+            navigation.navigate("LoginHome")
           }
         })
       }
       /*if(user){
-        navigation.replace("LoginScreen")
+        navigation.replace("LoginHome")
       }*/
       /*if(user){
           users_collection.doc(user.email).get().then((docSnapshot) => {
             if(docSnapshot.exits){
-              navigation.replace("LoginScreen")
+              navigation.replace("LoginHome")
             }
             else{
               navigation.replace("Register")

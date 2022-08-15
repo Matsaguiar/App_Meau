@@ -37,7 +37,7 @@ export default function Register({}) {
       if(user){
         users_collection.doc(user.email).get().then((docSnapshot) => {
           if(docSnapshot.exits){
-            navigation.replace("LoginScreen")
+            navigation.replace("LoginHome")
           }
         })
       }
@@ -58,7 +58,7 @@ export default function Register({}) {
       })
       .then(() => {
         console.log(fullName, " - phone:", phone, " - Cadastrado com sucesso");
-        navigation.replace("LoginScreen")
+        navigation.replace("LoginHome")
       })
       .catch((error) => {
         console.error("Erro escrita DB: ", error);

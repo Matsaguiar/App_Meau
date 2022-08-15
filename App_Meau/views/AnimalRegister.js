@@ -14,34 +14,28 @@ export default function AnimalRegister({}) {
   const animals_collections = db.collection('Animals');
 
   const [name, setName] = useState('');
+  const [species, setSpecies] = useState('');
   const [sex, setSex] = useState('');
   const [size, setSize] = useState('');
   const [age, setAge] = useState('');
   const [temperament, setTemperament] = useState('');
   const [health, setHealth] = useState('');
   const [history, setHistory] = useState('');
-  const [playful, setPlayful] = useState(false);
-  const [shy, setShy] = useState(false);
-  const [calm, setCalm] = useState(false);
-  const [guard, setGuard] = useState(false);
-  const [lovely, setLovely] = useState(false);
-  const [lazy, setLazy] = useState(false);
-  const [vaccinated, setVaccinated] = useState(false);
-  const [vermifugated, setVermifugated] = useState(false);
-  const [neutered, setNeutered] = useState(false);
   const [sick, setSick] = useState(false);
+  const [adoption, setAdoption] = useState('');
 
   const [selected, setSelected] = useState(0);
   const navigation = useNavigation()
     
   const goBack = () => {
-    navigation.replace("LoginScreen")
+    navigation.replace("LoginHome")
   }
   const handleRegister = () => {
 
     animals_collections.doc(name)
         .set({
             name: name,
+            species: species,
             sex: sex,
             size: size,
             age: age,
@@ -49,11 +43,12 @@ export default function AnimalRegister({}) {
             health: health,
             sick: sick,
             history: history,
-            tutor: 'Users/' + auth.currentUser?.email
+            adoption: !adoption,
+            tutor: db.collection('Users').doc(auth.currentUser?.email),
         })
         .then(() => {
             console.log(name, " - idade:", age, " - Cadastrado com sucesso");
-            navigation.replace("LoginScreen")
+            navigation.replace("LoginHome")
         })
         .catch((error) => {
             console.error("Erro escrita DB: ", error);
@@ -81,39 +76,38 @@ export default function AnimalRegister({}) {
           <TextInput style={css.loginInput}
             placeholder = 'Adicionar fotos'
           />
+          <Text style={[css.separator, css.yellowText]}>ESPÉCIE</Text>
+          <TextInput style={css.loginInput}
+            placeholder = 'Cachorro ou Gato'
+            value = {species}
+            onChangeText={value => {
+              setSpecies(value)
+            }}
+          />
           <Text style={[css.separator, css.yellowText]}>SEXO</Text>
-          <Radio 
-            selected={sex}
-            options={['Macho', 'Femea']} 
-            horizontal={true}
-            onChangeSelect={(opt, i) => {
-              console.log(opt)
-              setSelected(i)
-              setSex(selected)
+          <TextInput style={css.loginInput}
+            placeholder = 'Macho, Fêmea'
+            value = {sex}
+            onChangeText={value => {
+              setSex(value)
             }}
           />
           <Text style={[css.separator, css.yellowText]}>PORTE</Text>
-          <Radio style={{color: '#777'}}
-            selected={size}
-            options={['Pequeno', 'Médio', 'Grande']}
-            horizontal={true}
-            onChangeSelect={(opt, i) => {
-              console.log(opt)
-              setSelected(i)
-              setSize(selected)
+          <TextInput style={css.loginInput}
+            placeholder = 'Pequeno, Médio, Grande'
+            value = {size}
+            onChangeText={value => {
+              setSize(value)
             }}
           />
           <Text style={[css.separator, css.yellowText]}>IDADE</Text>
-          <Radio style={{color: '#777'}}
-            selected={age}
-            options={['Filhote', 'Adulto', 'Idoso']}
-            horizontal={true}
-            onChangeSelect={(opt, i) => {
-              console.log(opt)
-              setSelected(i)
-              setAge(selected)
+          <TextInput style={css.loginInput}
+            placeholder = 'Filhote, Adulto, Idoso'
+            value = {age}
+            onChangeText={value => {
+              setAge(value)
             }}
-          />          
+          />        
           <Text style={[css.separator, css.yellowText]}>TEMPERAMENTO</Text>
           <TextInput style={css.loginInput}
             placeholder = 'Brincalhão, Tímido, calmo, guarda, amoroso, preguiçoso'
@@ -150,6 +144,16 @@ export default function AnimalRegister({}) {
               setHistory(value)
             }}
           />
+          <Text style={[css.separator, css.yellowText]}>Disponivel para Adoção?</Text>
+          <Radio 
+            selected={adoption}
+            options={['Sim', 'Não']} 
+            horizontal={true}
+            onChangeSelect={(opt, i) => {
+              setSelected(i)
+              setAdoption(selected)
+            }}
+          />
         </View>
 
         <View style={css.buttonContainer_Scroll}>
@@ -157,7 +161,13 @@ export default function AnimalRegister({}) {
             onPress={handleRegister}
             style={[css.buttonYellow]}
           >
-            <Text style={css.buttonText}>COLOCAR PARA ADOÇÃO</Text>
+            <Text style={css.buttonText}>Cadastrar Animal</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            onPress={goBack}
+            style={[css.buttonGreen]}
+          >
+            <Text style={css.buttonText}>Voltar</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

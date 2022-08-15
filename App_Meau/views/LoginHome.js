@@ -4,7 +4,7 @@ import { css } from '../assets/css/Css'
 import { auth } from '../firebase'
 import { useNavigation } from '@react-navigation/native'
 
-export default function LoginScreen () {
+export default function LoginHome () {
 
   const navigation = useNavigation()
 
@@ -17,8 +17,8 @@ export default function LoginScreen () {
       .catch(error => alert(error.message)) 
   }
 
-  const Test = () => {
-    console.log("Test")
+  const AnimalRegister = () => {
+    console.log("AnimalRegister")
     navigation.replace("AnimalRegister")
   }
 
@@ -33,8 +33,22 @@ export default function LoginScreen () {
         <Text style={css.buttonText}>Sair</Text>
       </TouchableOpacity>
       
+      <TouchableOpacity
+        // onPress={openImagePickerAsync}
+        style={css.buttonGreen}
+      >
+        <Text style={css.buttonText}>Foto Usuário</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        // onPress={listAnimals}
+        style={css.buttonGreen}
+      >
+        <Text style={css.buttonText}>Meus Animais</Text>
+      </TouchableOpacity>
+
       <TouchableOpacity 
-        onPress={Test}
+        onPress={AnimalRegister}
         style={css.buttonGreen}
       > 
         <Text style={css.buttonText}>Cadastrar Animal</Text>
