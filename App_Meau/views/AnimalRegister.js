@@ -175,6 +175,7 @@ export default function AnimalRegister({}) {
   );
 }
 
+
 const specificStyle = StyleSheet.create({
   specificConteiner: {
     backgroundColor: "#fff",
