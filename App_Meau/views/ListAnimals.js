@@ -9,72 +9,90 @@ import { Image, FlatList } from 'react-native'
 
 const ListAnimals = () => {
 
-    const user_collection = db.collection('Users');
-    const animals_collections = db.collection('Animais');
-
-    const [image, setImage] = useState();
+    const [image, setImage] = useState('');
     const [animals, setAnimals] = useState([]);
-    
-    
-    const loadData = () => {
-        db.collection("Users").doc(auth.currentUser?.email).collection("Meus_animais").get()
+        
+    const loadData = async () => {
+
+        await db.collection("Users").doc(auth.currentUser?.email).collection("Meus_animais").get()
         .then((querySnapshot) => {
+            
             const animalList = [];
+
             querySnapshot.forEach((doc) => {
-                animalList.push(doc.data())
+                
+                let animal = doc.data()
+                
+                if(doc.data().ProfilePicture !== undefined) {
+                    
+
+                    const ref = storage.ref('imgAnimals/' + animal.ProfilePicture)
+                    
+                    ref.getDownloadURL().then(url => {
+                        
+                        console.log(animal.Nome + ' ' + url)
+
+                        setImage(url);
+                        
+                        console.log(animal.Nome + ' ' + image)
+                        animal.ProfilePicture = url;
+
+                    }).catch(error => {
+                        console.log(error);
+                    });                
+                }
+                
+                animalList.push(animal);
             });
+
             setAnimals(animalList)
-        }
-        );
+        });
+        
+        
     }
 
-    useEffect(loadData, []);
-    
+    useEffect(loadData, []);    
 
     const ItemSeparatorView = () => {
         return (
           //Item Separator
           <View
-            style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8' }}
+            style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8', marginTop: '10px', marginBottom: '10px' }}
           />
         );
-      };
+    };
 
     const renderItem = ({ item }) => {
 
-        console.log(item)
-
-        if(item.ProfilePicture === undefined) {
+        if(item.ProfilePicture === undefined || item.ProfilePicture === '') {
 
             return (
                 <View>
+                    <Text>No pic</Text>
                     <Text>{item.Nome}</Text>
                 </View>
             )
-
         }
+    
+        // const ref = storage.ref('imgAnimals/' + item.ProfilePicture)
+        
+        // ref.getDownloadURL().then(url => {
 
-        if(item.ProfilePicture !== null) {
-            const ref = storage.ref('imgAnimals/' + item.ProfilePicture)
-                ref.getDownloadURL().then(url => {
-                    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA ENTROU NA FUNCAO")
-                    console.log(url);
-                    setImage(url);
-                    
-                }).catch(error => {
-                    console.log(error);
-                });
-                
-            }
-            
-            return (
-                <View>
-    
-                    {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-                    <Text>{item.Nome}</Text>
-    
-                </View>
-            );
+        //     setImage(url);
+
+        // }).catch(error => {
+        //     console.log(error);
+        // });                
+
+        return (
+            <View>
+
+                {<Image source={{ uri: item.ProfilePicture }} style={{ width: 200, height: 200 }} />}
+
+                <Text>{item.Nome}</Text>
+
+            </View>
+        );
     };
 
     return (
@@ -90,7 +108,6 @@ const ListAnimals = () => {
                 ItemSeparatorComponent = {ItemSeparatorView}
             />
 
-            {/* {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />} */}
         </View>
     )
 }

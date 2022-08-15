@@ -75,6 +75,8 @@ const LoginScreen = () => {
   return (
     <View style={css.container}>
 
+      {/* IF HAS IMAGE, THEN IMAGE HERE */}
+
       <Text>Bem vindo: {auth.currentUser?.email}</Text>
       <TouchableOpacity 
         onPress={hendleSignOut}

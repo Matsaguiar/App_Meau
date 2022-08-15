@@ -18,7 +18,7 @@ const AnimalRegister = () => {
     const [species, setSpecies] = useState('')
     const [size, setSize] = useState('')
     const [breed, setBreed] = useState('')
-    const [age, setAge] = useState(null)
+    const [age, setAge] = useState(0)
     const [temperament, setTemperament] = useState('')
     const [health, setHealth] = useState('')
     const [needs, setNeeds] = useState('')
