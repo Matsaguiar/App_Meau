@@ -18,7 +18,7 @@ const Login = () => {
     const logOut = auth.onAuthStateChanged(user => {
         if(user){
           users_collection.doc(user.email).get().then((docSnapshot) => {
-            if(docSnapshot.exits){
+            if(docSnapshot.exists){
               navigation.replace("LoginScreen")
             }
             else{
