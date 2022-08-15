@@ -25,6 +25,8 @@ const AnimalPage = ({route}) => {
         <View>
 
             <Text >{route.params.animal.Nome}</Text>
+            <Text >Idade: {route.params.animal.age}</Text>
+            <Text >Raca: {route.params.animal.Raca}</Text>
 
             <TouchableOpacity 
                 onPress={() => navigation.navigate("LoginScreen")}
