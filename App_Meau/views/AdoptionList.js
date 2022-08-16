@@ -6,8 +6,13 @@ import { useNavigation } from '@react-navigation/native'
 import * as ImagePicker from 'expo-image-picker';
 import { useState, useEffect } from 'react'
 import { Image, FlatList } from 'react-native'
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
-const ListAnimals = () => {
+
+const AdoptionList = () => {
+
+    const navigation = useNavigation()
 
     const user_collection = db.collection('Users');
     const animals_collections = db.collection('Animais');
@@ -17,20 +22,19 @@ const ListAnimals = () => {
     
     
     const loadData = () => {
-        db.collection("Users").doc(auth.currentUser?.email).collection("Meus_animais").get()
+        animals_collections.get()
         .then((querySnapshot) => {
-            const animalList = [];
+            const adoptionList = [];
             querySnapshot.forEach((doc) => {
-                animalList.push(doc.data())
+                adoptionList.push(doc.data())
             });
-            setAnimals(animalList)
+            setAnimals(adoptionList)
         }
         );
     }
 
     useEffect(loadData, []);
     
-
     const ItemSeparatorView = () => {
         return (
           //Item Separator
@@ -44,15 +48,32 @@ const ListAnimals = () => {
 
         console.log(item)
 
-        if(item.ProfilePicture === undefined) {
+        //if(item.ProfilePicture === undefined) {
 
             return (
                 <View>
-                    <Text>{item.Nome}</Text>
+
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Body>
+                            <Card.Title>{item.Nome}</Card.Title>
+                            <Card.Text>
+                                Idade: {item.age}
+                            </Card.Text>
+                        
+                            <TouchableOpacity 
+                                onPress={() => navigation.replace("AnimalPage", { animal: item, })}
+                                style={css.buttonGreen}
+                            > 
+                                <Text style={css.buttonText}>Mais Detalhes</Text>
+                            </TouchableOpacity>
+                      
+                        </Card.Body>
+                    </Card>
+
                 </View>
             )
 
-        }
+        //}
 
         // if(item.ProfilePicture !== null) {
         //     const ref = storage.ref('imgAnimals/' + item.ProfilePicture)
@@ -67,14 +88,14 @@ const ListAnimals = () => {
                 
         //     }
             
-            return (
-                <View>
+        //     return (
+        //         <View>
     
-                    {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-                    <Text>{item.Nome}</Text>
+        //             //{image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+        //             <Text>{item.Nome}</Text>
     
-                </View>
-            );
+        //         </View>
+        //     );
     };
 
     return (
@@ -89,10 +110,15 @@ const ListAnimals = () => {
                 keyExtractor = {(item) => item.Nome}
                 ItemSeparatorComponent = {ItemSeparatorView}
             />
+            <TouchableOpacity 
+                onPress={() => navigation.navigate("LoginScreen")}
+                style={css.buttonGreen}
+            > 
+                <Text style={css.buttonText}>Sair</Text>
+            </TouchableOpacity>
 
-            {/* {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />} */}
         </View>
     )
 }
 
-export default ListAnimals
+export default AdoptionList
