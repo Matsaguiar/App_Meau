@@ -1,54 +1,70 @@
-import { Text, View, TouchableOpacity } from 'react-native'
+import { Text, View} from 'react-native'
 import React from 'react'
 import { css } from '../assets/css/Css'
 import { auth, db, storage } from '../firebase'
 import { useNavigation } from '@react-navigation/native'
-import * as ImagePicker from 'expo-image-picker';
 import { useState, useEffect } from 'react'
 import { Image, FlatList } from 'react-native'
 
+
+const downloadImages = async (animal) => {
+
+    console.log("Entrou no download")
+    console.log(animal)
+    
+    const ref = storage.ref('imgAnimals/' + animal.ProfilePicture);
+    const url = await ref.getDownloadURL();
+    
+    console.log("URL : " + url)
+    console.log("Saiu do download")
+    console.log("----------------------------------------------------")
+    return url;
+};
+
+const renderItem = ({ item }) => {
+
+    // const [image, setImage] = useState('')
+
+    if(item.ProfilePicture === undefined || item.ProfilePicture === '') {
+        return (
+            <View>
+                <Text>{item.Nome}</Text>
+            </View>
+        );
+    }
+
+    item.ProfilePicture = downloadImages(item)
+    .catch(error => {
+        console.log(error)
+    });
+
+        // setImage(item.ProfilePicture)
+    
+    return (
+        <View>
+            <Image source={{ uri: item.ProfilePicture }} style={{ width: 200, height: 200 }} />
+            <Text>{item.Nome}</Text>
+        </View>
+    );
+}
+
 const ListAnimals = () => {
+    
+    const [animals, setAnimals] = useState([])
+    const [loading, setLoading] = useState(true);
+    // const [image, setImage] = useState('')
 
-    const [image, setImage] = useState('');
-    const [animals, setAnimals] = useState([]);
+    const loadData = () => {
         
-    const loadData = async () => {
+        const animalList = [];
 
-        await db.collection("Users").doc(auth.currentUser?.email).collection("Meus_animais").get()
+        db.collection("Users").doc(auth.currentUser?.email).collection("Meus_animais").get()
         .then((querySnapshot) => {
-            
-            const animalList = [];
 
-            querySnapshot.forEach((doc) => {
-                
-                let animal = doc.data()
-                
-                if(doc.data().ProfilePicture !== undefined) {
-                    
-
-                    const ref = storage.ref('imgAnimals/' + animal.ProfilePicture)
-                    
-                    ref.getDownloadURL().then(url => {
-                        
-                        console.log(animal.Nome + ' ' + url)
-
-                        setImage(url);
-                        
-                        console.log(animal.Nome + ' ' + image)
-                        animal.ProfilePicture = url;
-
-                    }).catch(error => {
-                        console.log(error);
-                    });                
-                }
-                
-                animalList.push(animal);
-            });
+            querySnapshot.forEach((doc) => { animalList.push(doc.data()) });
 
             setAnimals(animalList)
         });
-        
-        
     }
 
     useEffect(loadData, []);    
@@ -59,39 +75,6 @@ const ListAnimals = () => {
           <View
             style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8', marginTop: '10px', marginBottom: '10px' }}
           />
-        );
-    };
-
-    const renderItem = ({ item }) => {
-
-        if(item.ProfilePicture === undefined || item.ProfilePicture === '') {
-
-            return (
-                <View>
-                    <Text>No pic</Text>
-                    <Text>{item.Nome}</Text>
-                </View>
-            )
-        }
-    
-        // const ref = storage.ref('imgAnimals/' + item.ProfilePicture)
-        
-        // ref.getDownloadURL().then(url => {
-
-        //     setImage(url);
-
-        // }).catch(error => {
-        //     console.log(error);
-        // });                
-
-        return (
-            <View>
-
-                {<Image source={{ uri: item.ProfilePicture }} style={{ width: 200, height: 200 }} />}
-
-                <Text>{item.Nome}</Text>
-
-            </View>
         );
     };
 
@@ -107,6 +90,12 @@ const ListAnimals = () => {
                 keyExtractor = {(item) => item.Nome}
                 ItemSeparatorComponent = {ItemSeparatorView}
             />
+
+            <Text>Usando map:</Text>
+
+            {
+                animals.map((animal) => {<Text>{animal.Nome}</Text>})
+            }
 
         </View>
     )
