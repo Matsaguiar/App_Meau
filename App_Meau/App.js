@@ -9,6 +9,8 @@ import LoginScreen from './views/LoginScreen';
 import ForgotPassword from './views/ForgotPassword';
 import AnimalRegister from './views/AnimalRegister';
 import ListAnimals from './views/ListAnimals';
+import AdoptionList from './views/AdoptionList';
+import AnimalPage from './views/AnimalPage';
 import ImageUpload from './views/ImageUpload';
 
 export default function App() {
@@ -26,6 +28,8 @@ export default function App() {
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="AnimalRegister" component={AnimalRegister} />
         <Stack.Screen name="ListAnimals" component={ListAnimals} />
+        <Stack.Screen name="AdoptionList" component={AdoptionList} />
+        <Stack.Screen name="AnimalPage" component={AnimalPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

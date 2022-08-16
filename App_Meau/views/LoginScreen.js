@@ -161,6 +161,13 @@ const LoginScreen = () => {
         <Text style={css.buttonText}>Cadastrar Animal</Text>
       </TouchableOpacity>
 
+      <TouchableOpacity 
+        onPress={() => navigation.navigate("AdoptionList")}
+        style={css.buttonGreen}
+      > 
+        <Text style={css.buttonText}>Lista de Adoção</Text>
+      </TouchableOpacity>
+
     </View>
   )
 }
