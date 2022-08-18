@@ -6,53 +6,9 @@ import { useNavigation } from '@react-navigation/native'
 import { useState, useEffect } from 'react'
 import { Image, FlatList } from 'react-native'
 
-
-const downloadImages = async (animal) => {
-
-    console.log("Entrou no download")
-    console.log(animal)
-    
-    const ref = storage.ref('imgAnimals/' + animal.ProfilePicture);
-    const url = await ref.getDownloadURL();
-    
-    console.log("URL : " + url)
-    console.log("Saiu do download")
-    console.log("----------------------------------------------------")
-    return url;
-};
-
-const renderItem = ({ item }) => {
-
-    // const [image, setImage] = useState('')
-
-    if(item.ProfilePicture === undefined || item.ProfilePicture === '') {
-        return (
-            <View>
-                <Text>{item.Nome}</Text>
-            </View>
-        );
-    }
-
-    item.ProfilePicture = downloadImages(item)
-    .catch(error => {
-        console.log(error)
-    });
-
-        // setImage(item.ProfilePicture)
-    
-    return (
-        <View>
-            <Image source={{ uri: item.ProfilePicture }} style={{ width: 200, height: 200 }} />
-            <Text>{item.Nome}</Text>
-        </View>
-    );
-}
-
 const ListAnimals = () => {
     
     const [animals, setAnimals] = useState([])
-    const [loading, setLoading] = useState(true);
-    // const [image, setImage] = useState('')
 
     const loadData = () => {
         
@@ -69,6 +25,8 @@ const ListAnimals = () => {
 
     useEffect(loadData, []);    
 
+    
+
     const ItemSeparatorView = () => {
         return (
           //Item Separator
@@ -77,6 +35,25 @@ const ListAnimals = () => {
           />
         );
     };
+
+
+    const renderItem = ({ item }) => {
+
+        if(item.profilePicture === undefined || item.profilePicture === '') {
+            return (
+                <View>
+                    <Text>{item.name}</Text>
+                </View>
+            );
+        }
+        
+        return (
+            <View>
+                <Image source={{ uri: item.profilePicture }} style={{ width: 200, height: 200 }} />
+                <Text>{item.name}</Text>
+            </View>
+        );
+    }
 
     return (
 
@@ -87,15 +64,15 @@ const ListAnimals = () => {
             <FlatList
                 data = {animals}
                 renderItem = {renderItem}
-                keyExtractor = {(item) => item.Nome}
+                keyExtractor = {(item) => item.name}
                 ItemSeparatorComponent = {ItemSeparatorView}
             />
 
-            <Text>Usando map:</Text>
+            {/* <Text>Usando map:</Text>
 
             {
-                animals.map((animal) => {<Text>{animal.Nome}</Text>})
-            }
+                animals.map((animal) => {<Text>{animal.name}</Text>})
+            } */}
 
         </View>
     )
