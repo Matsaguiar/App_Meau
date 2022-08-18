@@ -22,7 +22,7 @@ const Login = () => {
               navigation.replace("LoginScreen")
             }
             else{
-              // navigation.replace("Register")
+              // navigation.replace("Register") 
             }
           })
         }

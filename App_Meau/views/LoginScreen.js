@@ -1,19 +1,54 @@
-import { Text, View, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import { Text, View, TouchableOpacity, Image } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { css } from '../assets/css/Css'
 import { auth, db, storage } from '../firebase'
 import { useNavigation } from '@react-navigation/native'
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid'; 
 
+
 const LoginScreen = () => {
 
   const [image, setImage] = useState('')
-  const [imageUuid, setImageUuid] = useState(null);
+  const [imageUuid, setImageUuid] = useState('');
 
-
+  const [userProfilePicture, setUserProfilePicture] = useState('')
 
   const navigation = useNavigation()
+
+  useEffect(async () => {
+
+    console.log('first')
+
+    const user = auth.currentUser?.email;
+
+    let profilePicture;
+
+    await db.collection('Users').doc(user).get().then(doc => {
+      profilePicture = doc.data().profilePicture;
+      console.log(profilePicture)
+      setUserProfilePicture(profilePicture)
+    }).catch(error => {
+      console.log(error)
+    });
+
+    const userProfilePicture = await storage.ref('imgUsers/' + profilePicture).getDownloadURL();
+
+    setUserProfilePicture(userProfilePicture)
+
+  }, []);
+
+  useEffect(async () => {
+
+    console.log('second')
+    if(userProfilePicture === '' || userProfilePicture === undefined) return
+
+    const userProfilePicture = await storage.ref('imgUsers/' + userProfilePicture).getDownloadURL();
+
+    setUserProfilePicture(userProfilePicture)
+
+
+  }, [userProfilePicture]);
 
   const hendleSignOut = () => {
     auth
@@ -48,15 +83,15 @@ const LoginScreen = () => {
     console.log(image)
     console.log(imageUuid)
 
-    uploadImage(image, imageUuid)
   }
   
   const uploadImage = async (uri, imageName) => {
 
     db.collection('Users').doc(auth.currentUser?.email).set({
       profilePicture: imageName
-    }
-    )
+    });
+
+    console.log("Image: ", image + " ImageUuid: ", imageUuid);
 
     const response = await fetch(uri);
     const blob = await response.blob();
@@ -75,6 +110,11 @@ const LoginScreen = () => {
   return (
     <View style={css.container}>
 
+      {
+        userProfilePicture && 
+        <Image source={{uri : userProfilePicture}} style={{width:150, height: 200, borderRadius : '200px', borderWidth: '5px', borderColor : '#88c9bf', marginBottom : '10px'}}/>
+      }
+
       <Text>Bem vindo: {auth.currentUser?.email}</Text>
       <TouchableOpacity 
         onPress={hendleSignOut}
@@ -83,12 +123,29 @@ const LoginScreen = () => {
         <Text style={css.buttonText}>Sair</Text>
       </TouchableOpacity>
       
+
+    {image && <Image source={{uri : image}} style = {{width: 200, height: 200}}/>}
+
+    {
+      image &&
+      <TouchableOpacity
+        onPress={ () => uploadImage(image, imageUuid)}
+        style={css.buttonGreen}
+      >
+        <Text style={css.buttonText}>Upload</Text>
+
+      </TouchableOpacity>
+    }
+
+
     <TouchableOpacity
       onPress={openImagePickerAsync}
       style={css.buttonGreen}
     >
       <Text style={css.buttonText}>Foto Usuário</Text>
     </TouchableOpacity>
+
+
 
     <TouchableOpacity
       onPress={listAnimals}

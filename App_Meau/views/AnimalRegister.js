@@ -18,7 +18,7 @@ const AnimalRegister = () => {
     const [species, setSpecies] = useState('')
     const [size, setSize] = useState('')
     const [breed, setBreed] = useState('')
-    const [age, setAge] = useState(null)
+    const [age, setAge] = useState(0)
     const [temperament, setTemperament] = useState('')
     const [health, setHealth] = useState('')
     const [needs, setNeeds] = useState('')
@@ -26,7 +26,7 @@ const AnimalRegister = () => {
     const [aboutAnimal, setAboutAnimal] = useState('')
     
     const [image, setImage] = useState(null);
-    const [imageUuid, setImageUuid] = useState(null);
+    const [imageUuid, setImageUuid] = useState('');
 
     const navigation = useNavigation()
     
@@ -34,42 +34,53 @@ const AnimalRegister = () => {
         navigation.replace("LoginScreen")
     }
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
 
-        animals_collections.doc(name)
-            .set({
-                Nome: name,
-                Raca: breed,
-                age: parseInt(age),
-                owner: db.collection('Users').doc(auth.currentUser?.email),
-                ProfilePicture: imageUuid,
-              })
-              .then(() => {
-                Alert.alert(name + ' cadastrado com sucesso!')
-                navigation.replace("LoginScreen")
-              })
-              .catch((error) => {
-                console.error("Erro escrita DB: ", error);
-              }
-              )
-              
-              user_collection.doc(auth.currentUser?.email)
-              .collection("Meus_animais").add({
-                Referencia: animals_collections.doc(name),
-                Nome: name,
-                Raca: breed,
-                age: parseInt(age),
-                ProfilePicture: imageUuid,
-              })
-              .then(() => {
-                console.log("Animais atualizados com sucesso");
-            })
-            .catch((error) => {
-              console.error("Erro atualizando DB: ", error);
-            });
+      await uploadImage(image, imageUuid);
 
-            console.log("Image: ", image + " ImageUuid: ", imageUuid);
-            uploadImage(image, imageUuid);
+      const ref = storage.ref('imgAnimals/' + imageUuid);
+
+      let imageUrl;
+
+      await ref.getDownloadURL().then(url => {
+        imageUrl = url;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+
+      animals_collections.doc(name)
+        .set({
+            name: name,
+            breed: breed,
+            age: parseInt(age),
+            owner: db.collection('Users').doc(auth.currentUser?.email),
+            profilePicture: imageUrl,
+          })
+          .then(() => {
+            Alert.alert(name + ' cadastrado com sucesso!')
+            navigation.replace("LoginScreen")
+          })
+          .catch((error) => {
+            console.error("Erro escrita DB: ", error);
+          });
+          
+          user_collection.doc(auth.currentUser?.email)
+          .collection("Meus_animais").add({
+            animal_ref: animals_collections.doc(name),
+            name: name,
+            breed: breed,
+            age: parseInt(age),
+            profilePicture: imageUrl,
+          })
+          .then(() => {
+            console.log("Animais atualizados com sucesso");
+          })
+          .catch((error) => {
+            console.error("Erro atualizando DB: ", error);
+          });
+
     }
 
     
@@ -85,8 +96,8 @@ const AnimalRegister = () => {
       let pickerResult = await ImagePicker.launchImageLibraryAsync();
 
       if (pickerResult.cancelled === true) {
-          console.log("cancelled");
-          return;
+        console.log("cancelled");
+        return;
       }
       
       let imageId = uuid.v4();
@@ -97,7 +108,7 @@ const AnimalRegister = () => {
     }
     
     const uploadImage = async (uri, imageName) => {
-      
+    
       const response = await fetch(uri);
       const blob = await response.blob();
       const ref = storage.ref().child('imgAnimals/' + imageName);
