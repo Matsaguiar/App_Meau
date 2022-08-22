@@ -63,8 +63,8 @@ const Login = () => {
   }
 
   return (
-    //<KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={[css.container, css.bg]}>
-    <KeyboardAvoidingView style={[css.container]}>
+    <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={[css.container, css.bg]}>
+    {/* <KeyboardAvoidingView style={[css.container]}> */}
 
       <View style = {css.loginLogomarca}>
         <Image source={require('../assets/img/logo.png')}/>

@@ -111,8 +111,9 @@ const LoginScreen = () => {
     <View style={css.container}>
 
       {
-        userProfilePicture && 
+        userProfilePicture ? 
         <Image source={{uri : userProfilePicture}} style={{width:150, height: 200, borderRadius : '200px', borderWidth: '5px', borderColor : '#88c9bf', marginBottom : '10px'}}/>
+      : null
       }
 
       <Text>Bem vindo: {auth.currentUser?.email}</Text>
@@ -124,17 +125,17 @@ const LoginScreen = () => {
       </TouchableOpacity>
       
 
-    {image && <Image source={{uri : image}} style = {{width: 200, height: 200}}/>}
+    {image ? <Image source={{uri : image}} style = {{width: 200, height: 200}}/> : null}
 
     {
-      image &&
+      image ? 
       <TouchableOpacity
         onPress={ () => uploadImage(image, imageUuid)}
         style={css.buttonGreen}
       >
         <Text style={css.buttonText}>Upload</Text>
 
-      </TouchableOpacity>
+      </TouchableOpacity> : null
     }
 
 
