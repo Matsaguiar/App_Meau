@@ -10,6 +10,8 @@ import { CheckBox } from 'react-native';
 export default function Register({}) {
   const users_collection = db.collection('Users')
 
+  const defaultProfilePicture = 'https://firebasestorage.googleapis.com/v0/b/app-meau.appspot.com/o/imgUsers%2Fdefault-profile-icon.jpg?alt=media&token=bbfc22e1-0478-46d0-b5ba-83442c2917e9'
+
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
   const [confirmPass, setConfirmPass] = useState(null)
@@ -18,7 +20,7 @@ export default function Register({}) {
   const [state, setState] = useState(null)
   const [city, setCity] = useState(null)
   const [address, setAddress] = useState(null) 
-  const [phone, setPhone] = useState(null)
+  const [phone, setPhone] = useState('')
   const [isSelected, setSelected] = useState(null)
   const [errorEmail, setErrorEmail] = useState(null)
   const [errorPassword, setErrorPassword] = useState(null)
@@ -47,14 +49,15 @@ export default function Register({}) {
   }, [])
 
   const registerSingUp = () => {
-    users_collection.doc(auth.currentUser?.email)
+    users_collection.doc(email)
       .set({
         fullName: fullName,
         age: parseInt(age),
         state: state,
         city: city,
         address: address,
-        phone: parseInt(phone),
+        phone: phone,
+        profilePicture: defaultProfilePicture,
       })
       .then(() => {
         console.log(fullName, " - phone:", phone, " - Cadastrado com sucesso");

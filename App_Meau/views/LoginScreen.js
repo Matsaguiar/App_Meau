@@ -18,37 +18,17 @@ const LoginScreen = () => {
 
   useEffect(async () => {
 
-    console.log('first')
-
     const user = auth.currentUser?.email;
 
-    let profilePicture;
-
     await db.collection('Users').doc(user).get().then(doc => {
-      profilePicture = doc.data().profilePicture;
-      console.log(profilePicture)
-      setUserProfilePicture(profilePicture)
-    }).catch(error => {
+      console.log(doc.data().profilePicture)
+      setUserProfilePicture(doc.data().profilePicture);
+    })
+    .catch(error => {
       console.log(error)
     });
 
-    const userProfilePicture = await storage.ref('imgUsers/' + profilePicture).getDownloadURL();
-
-    setUserProfilePicture(userProfilePicture)
-
   }, []);
-
-  useEffect(async () => {
-
-    console.log('second')
-    if(userProfilePicture === '' || userProfilePicture === undefined) return
-
-    const userProfilePicture = await storage.ref('imgUsers/' + userProfilePicture).getDownloadURL();
-
-    setUserProfilePicture(userProfilePicture)
-
-
-  }, [userProfilePicture]);
 
   const hendleSignOut = () => {
     auth
@@ -58,6 +38,10 @@ const LoginScreen = () => {
       })
       .catch(error => alert(error.message)) 
   }
+
+  useEffect(() => {
+
+  } , [userProfilePicture])
 
   let openImagePickerAsync = async () => {
 
@@ -85,13 +69,39 @@ const LoginScreen = () => {
 
   }
   
-  const uploadImage = async (uri, imageName) => {
+  const deleteOldImage = async () => {
+
+    const ref = storage.refFromURL(userProfilePicture);
+    
+    ref.delete()
+    .then(() => {
+      console.log("Imagem " + userProfilePicture + " deletada com sucesso")
+    }).catch(error => {
+      console.log(error)
+    });
+  }
+
+  const updateUserImage = async (uri, imageName) => {
+
+    await uploadImage(uri, imageName)
+    
+    let newImageUrl = await storage.ref('imgUsers/' + imageUuid).getDownloadURL();
+
+    deleteOldImage();
 
     db.collection('Users').doc(auth.currentUser?.email).set({
-      profilePicture: imageName
+      profilePicture: newImageUrl,
+    })
+    .then( () => {
+      setUserProfilePicture(newImageUrl)
+      setImage('')
+    })
+    .catch(error => {
+      console.log(error)
     });
+  }
 
-    console.log("Image: ", image + " ImageUuid: ", imageUuid);
+  const uploadImage = async (uri, imageName) => {
 
     const response = await fetch(uri);
     const blob = await response.blob();
@@ -129,7 +139,7 @@ const LoginScreen = () => {
     {
       image &&
       <TouchableOpacity
-        onPress={ () => uploadImage(image, imageUuid)}
+        onPress={ () => updateUserImage(image, imageUuid)}
         style={css.buttonGreen}
       >
         <Text style={css.buttonText}>Upload</Text>
