@@ -36,7 +36,7 @@ const AdoptionList = () => {
     return (
       //Item Separator
       <View
-        style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8' }}
+        style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8', marginTop: 10, marginBottom: 10 }}
       />
     );
   };
@@ -45,6 +45,7 @@ const AdoptionList = () => {
     
     return (
       <View>
+
         {/* <Card style={{ width: '18rem' }}>
           <Card.Body>
             <Card.Title>{item.name}</Card.Title>
@@ -57,17 +58,25 @@ const AdoptionList = () => {
             >
               <Text style={css.buttonText}>Mais Detalhes</Text>
             </TouchableOpacity>
-          </Card.Body>
-        </Card> */}
+            </Card.Body>
+          </Card> */}
+
+        
         <Text>Nome: {item.name}</Text>
         <Text>Idade: {item.age}</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("AnimalPage", { animal: item})}
+            style={css.buttonGreen}
+          >
+            <Text style={css.buttonText}>Mais Detalhes</Text>
+          </TouchableOpacity>
       </View>
     )
   };
 
   return (
     <View>
-      <Text >List Animais</Text>
+      <Text style={{fontSize: 25, marginBottom: 15}}>Animais para Adoção</Text>
 
       <FlatList
         data={animals}

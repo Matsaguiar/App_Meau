@@ -59,7 +59,7 @@ const ListAnimals = () => {
 
         <View>
 
-            <Text >List Animais</Text>
+            <Text style={{fontSize: 25, marginBottom: 15}}>Meus Animais</Text>
 
             <FlatList
                 data = {animals}
