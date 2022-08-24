@@ -18,8 +18,6 @@ const LoginScreen = () => {
 
   useEffect(async () => {
 
-    console.log('first')
-
     const user = auth.currentUser?.email;
 
     let profilePicture;
@@ -31,24 +29,7 @@ const LoginScreen = () => {
     }).catch(error => {
       console.log(error)
     });
-
-    const userProfilePicture = await storage.ref('imgUsers/' + profilePicture).getDownloadURL();
-
-    setUserProfilePicture(userProfilePicture)
-
   }, []);
-
-  useEffect(async () => {
-
-    console.log('second')
-    if (userProfilePicture === '' || userProfilePicture === undefined) return
-
-    const userProfilePicture = await storage.ref('imgUsers/' + userProfilePicture).getDownloadURL();
-
-    setUserProfilePicture(userProfilePicture)
-
-
-  }, [userProfilePicture]);
 
   const hendleSignOut = () => {
     auth
@@ -110,11 +91,11 @@ const LoginScreen = () => {
   return (
     <View style={css.container}>
 
-      {
+      {/* {
         userProfilePicture ?
           <Image source={{ uri: userProfilePicture }} style={{ width: 150, height: 200, borderRadius: '200px', borderWidth: '5px', borderColor: '#88c9bf', marginBottom: '10px' }} />
           : null
-      }
+      } */}
 
       <Text>Bem vindo: {auth.currentUser?.email}</Text>
       <TouchableOpacity
@@ -130,8 +111,6 @@ const LoginScreen = () => {
       >
         <Text style={css.buttonText}>Foto Usuário</Text>
       </TouchableOpacity>
-
-
 
       <TouchableOpacity
         onPress={listAnimals}

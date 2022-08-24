@@ -46,47 +46,24 @@ const AdoptionList = () => {
     //if(item.ProfilePicture === undefined) {
     return (
       <View>
-        <Card style={{ width: '18rem' }}>
+        {/* <Card style={{ width: '18rem' }}>
           <Card.Body>
             <Card.Title>{item.name}</Card.Title>
             <Card.Text>
               Idade: {item.age}
             </Card.Text>
             <TouchableOpacity
-              onPress={() => navigation.replace("AnimalPage", { animal: item, })}
+              onPress={() => navigation.replace("AnimalPage", { animal: item})}
               style={css.buttonGreen}
             >
               <Text style={css.buttonText}>Mais Detalhes</Text>
             </TouchableOpacity>
           </Card.Body>
-        </Card>
+        </Card> */}
+        <Text>Nome: {item.name}</Text>
+        <Text>Idade: {item.age}</Text>
       </View>
     )
-
-    //}
-
-    // if(item.ProfilePicture !== null) {
-    //     const ref = storage.ref('imgAnimals/' + item.ProfilePicture)
-    //         ref.getDownloadURL().then(url => {
-    //             console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA ENTROU NA FUNCAO")
-    //             console.log(url);
-    //             setImage(url);
-
-    //         }).catch(error => {
-    //             console.log(error);
-    //         });
-
-    //     }
-
-    //     return (
-    //         <View>
-
-    //             //{image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-    //             <Text>{item.Nome}</Text>
-
-    //         </View>
-    //     );
-
   };
 
   return (
@@ -96,9 +73,10 @@ const AdoptionList = () => {
       <FlatList
         data={animals}
         renderItem={renderItem}
-        keyExtractor={(item) => item.Nome}
+        keyExtractor={(item) => item.name}
         ItemSeparatorComponent={ItemSeparatorView}
       />
+
       <TouchableOpacity
         onPress={() => navigation.navigate("LoginScreen")}
         style={css.buttonGreen}
