@@ -11,7 +11,7 @@ import { Image } from 'react-native'
 
 const AnimalRegister = () => {
 
-  const animals_collections = db.collection('Animais');
+  const animals_collections = db.collection('Animals');
   const user_collection = db.collection('Users');
 
   const [name, setName] = useState('')
