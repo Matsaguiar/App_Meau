@@ -91,11 +91,11 @@ const LoginScreen = () => {
   return (
     <View style={css.container}>
 
-      {/* {
-        userProfilePicture ?
-          <Image source={{ uri: userProfilePicture }} style={{ width: 150, height: 200, borderRadius: '200px', borderWidth: '5px', borderColor: '#88c9bf', marginBottom: '10px' }} />
+      {
+        userProfilePicture !== '' ?
+          <Image source={{ uri: userProfilePicture }} style={{ width: 150, height: 200, borderRadius: 200, borderWidth: 5, borderColor: '#88c9bf', marginBottom: 10 }} />
           : null
-      } */}
+      }
 
       <Text>Bem vindo: {auth.currentUser?.email}</Text>
       <TouchableOpacity
@@ -111,6 +111,22 @@ const LoginScreen = () => {
       >
         <Text style={css.buttonText}>Foto Usuário</Text>
       </TouchableOpacity>
+
+      {
+        image !== '' ? <Image source={{ uri: image }} style={{ width: 150, height: 200, borderRadius: 200, borderWidth: 5, borderColor: '#88c9bf', marginBottom: 10 }} /> : null
+      }
+      
+      {
+        image !== '' ? 
+        <TouchableOpacity
+          onPress={() => uploadImage(image, imageUuid)}
+          style={css.buttonGreen}
+        >
+          <Text>Upload</Text>
+
+        </TouchableOpacity>
+        : null
+      }
 
       <TouchableOpacity
         onPress={listAnimals}
