@@ -10,7 +10,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
 
-const AnimalPage = ({route}) => {
+const AnimalPage = ({ route }) => {
 
   const navigation = useNavigation()
 
@@ -33,39 +33,39 @@ const AnimalPage = ({route}) => {
         navigation.replace("LoginScreen")
       })
       .catch((error) => {
-          console.error("Erro escrita DB: ", error);
+        console.error("Erro escrita DB: ", error);
       })
   }
-  
+
 
   return (
-      <View>
-        <Text >{route.params.animal.name}</Text>
-        <Text >Idade: {route.params.animal.age}</Text>
-        <Text>Sexo: {route.params.animal.sex}</Text>
-        <Text>Tamanho: {route.params.animal.size}</Text>
-        <Text>Idade: {route.params.animal.age}</Text>
-        <Text>Temperamento: {route.params.animal.temperament}</Text>
-        <Text>Saúde: {route.params.animal.health}</Text>
-        <Text>Doenças: {route.params.animal.sick}</Text>
-        <Text>Historia: {route.params.animal.history}</Text>
+    <View>
+      <Text >{route.params.animal.name}</Text>
+      <Text >Idade: {route.params.animal.age}</Text>
+      <Text>Sexo: {route.params.animal.sex}</Text>
+      <Text>Tamanho: {route.params.animal.size}</Text>
+      <Text>Idade: {route.params.animal.age}</Text>
+      <Text>Temperamento: {route.params.animal.temperament}</Text>
+      <Text>Saúde: {route.params.animal.health}</Text>
+      <Text>Doenças: {route.params.animal.sick}</Text>
+      <Text>Historia: {route.params.animal.history}</Text>
 
-        <TouchableOpacity 
-            onPress={notification}
-            style={css.buttonGreen}
-        > 
-            <Text style={css.buttonText}>Adotar</Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+        onPress={notification}
+        style={css.buttonGreen}
+      >
+        <Text style={css.buttonText}>Adotar</Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity 
-          onPress={() => navigation.navigate("AdoptionList")}
-          style={css.buttonGreen}
-        > 
-          <Text style={css.buttonText}>Voltar</Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("AdoptionList")}
+        style={css.buttonGreen}
+      >
+        <Text style={css.buttonText}>Voltar</Text>
+      </TouchableOpacity>
 
-      </View>
-    )
+    </View>
+  )
 }
 
 export default AnimalPage

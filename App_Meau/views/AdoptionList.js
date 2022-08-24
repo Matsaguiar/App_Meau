@@ -17,21 +17,21 @@ const AdoptionList = () => {
 
   const [image, setImage] = useState();
   const [animals, setAnimals] = useState([]);
-    
+
   const loadData = () => {
     animals_collections.get()
-    .then((querySnapshot) => {
-      const adoptionList = [];
-      querySnapshot.forEach((doc) => {
-        adoptionList.push(doc.data())
-      });
-      setAnimals(adoptionList)
-    }
-    );
+      .then((querySnapshot) => {
+        const adoptionList = [];
+        querySnapshot.forEach((doc) => {
+          adoptionList.push(doc.data())
+        });
+        setAnimals(adoptionList)
+      }
+      );
   }
 
   useEffect(loadData, []);
-    
+
   const ItemSeparatorView = () => {
     return (
       //Item Separator
@@ -50,43 +50,43 @@ const AdoptionList = () => {
           <Card.Body>
             <Card.Title>{item.name}</Card.Title>
             <Card.Text>
-                Idade: {item.age}
+              Idade: {item.age}
             </Card.Text>
-            <TouchableOpacity 
-                onPress={() => navigation.replace("AnimalPage", { animal: item, })}
-                style={css.buttonGreen}
-            > 
-                <Text style={css.buttonText}>Mais Detalhes</Text>
+            <TouchableOpacity
+              onPress={() => navigation.replace("AnimalPage", { animal: item, })}
+              style={css.buttonGreen}
+            >
+              <Text style={css.buttonText}>Mais Detalhes</Text>
             </TouchableOpacity>
           </Card.Body>
         </Card>
       </View>
     )
 
-        //}
+    //}
 
-        // if(item.ProfilePicture !== null) {
-        //     const ref = storage.ref('imgAnimals/' + item.ProfilePicture)
-        //         ref.getDownloadURL().then(url => {
-        //             console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA ENTROU NA FUNCAO")
-        //             console.log(url);
-        //             setImage(url);
-                    
-        //         }).catch(error => {
-        //             console.log(error);
-        //         });
-                
-        //     }
-            
-        //     return (
-        //         <View>
-    
-        //             //{image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-        //             <Text>{item.Nome}</Text>
-    
-        //         </View>
-        //     );
-  
+    // if(item.ProfilePicture !== null) {
+    //     const ref = storage.ref('imgAnimals/' + item.ProfilePicture)
+    //         ref.getDownloadURL().then(url => {
+    //             console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA ENTROU NA FUNCAO")
+    //             console.log(url);
+    //             setImage(url);
+
+    //         }).catch(error => {
+    //             console.log(error);
+    //         });
+
+    //     }
+
+    //     return (
+    //         <View>
+
+    //             //{image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+    //             <Text>{item.Nome}</Text>
+
+    //         </View>
+    //     );
+
   };
 
   return (
@@ -94,15 +94,15 @@ const AdoptionList = () => {
       <Text >List Animais</Text>
 
       <FlatList
-        data = {animals}
-        renderItem = {renderItem}
-        keyExtractor = {(item) => item.Nome}
-        ItemSeparatorComponent = {ItemSeparatorView}
+        data={animals}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.Nome}
+        ItemSeparatorComponent={ItemSeparatorView}
       />
-      <TouchableOpacity 
+      <TouchableOpacity
         onPress={() => navigation.navigate("LoginScreen")}
         style={css.buttonGreen}
-      > 
+      >
         <Text style={css.buttonText}>Sair</Text>
       </TouchableOpacity>
 

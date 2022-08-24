@@ -18,10 +18,10 @@ export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
-     <NavigationContainer>
+    <NavigationContainer>
       <Stack.Navigator>
         {/* <Stack.Screen name="Home" options={{headerShown:false}} component={ImageUpload} /> */}
-        <Stack.Screen name="Home" options={{headerShown:false}} component={Home} />
+        <Stack.Screen name="Home" options={{ headerShown: false }} component={Home} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />

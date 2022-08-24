@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { collection } from '@react-native-firebase/firestore'
 import { CheckBox } from 'react-native';
 
-export default function Register({}) {
+export default function Register({ }) {
   const users_collection = db.collection('Users')
 
   const [email, setEmail] = useState(null)
@@ -17,7 +17,7 @@ export default function Register({}) {
   const [age, setAge] = useState(null)
   const [state, setState] = useState(null)
   const [city, setCity] = useState(null)
-  const [address, setAddress] = useState(null) 
+  const [address, setAddress] = useState(null)
   const [phone, setPhone] = useState(null)
   const [isSelected, setSelected] = useState(null)
   const [errorEmail, setErrorEmail] = useState(null)
@@ -30,20 +30,20 @@ export default function Register({}) {
   const [errorAddress, setErrorAddress] = useState(null)
   const [errorPhone, setErrorPhone] = useState(null)
 
-  const navigation = useNavigation() 
+  const navigation = useNavigation()
 
   useEffect(() => {
     const logOut = auth.onAuthStateChanged(user => {
-      if(user){
+      if (user) {
         users_collection.doc(user.email).get().then((docSnapshot) => {
-            if(docSnapshot.exits){
-              navigation.replace("LoginScreen")
-            }
-          })
+          if (docSnapshot.exits) {
+            navigation.replace("LoginScreen")
+          }
+        })
       }
     })
     return logOut
-    
+
   }, [])
 
   const registerSingUp = () => {
@@ -77,43 +77,43 @@ export default function Register({}) {
 
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-    if(!re.test(String(email).toLowerCase()) || email == null){
+    if (!re.test(String(email).toLowerCase()) || email == null) {
       setErrorEmail("Preencha o e-mail corretamente!")
       error = true
     }
-    if(password == null){
+    if (password == null) {
       setErrorPassword("Preencha a senha!")
       error = true
     }
-    if(confirmPass == null){
+    if (confirmPass == null) {
       setErrorConfirmPassword("Preencha a confirmação de senha!")
       error = true
     }
-    if(password != confirmPass){
+    if (password != confirmPass) {
       setErrorPassword("Senhas são diferentes!")
       error = true
     }
-    if(fullName == null){
+    if (fullName == null) {
       setErrorFullName("Informe o nome completo!")
       error = true
     }
-    if(age == null){
+    if (age == null) {
       setErrorAge('Informe o sua idade!')
       error = true
     }
-    if(state == null){
+    if (state == null) {
       setErrorState('Informe o estado!')
       error = true
     }
-    if(city == null){
+    if (city == null) {
       setErrorCity('Informe a cidade!')
       error = true
     }
-    if(address == null){
+    if (address == null) {
       setErrorAddress('Informe o endereço!')
       error = true
     }
-    if(phone == null){
+    if (phone == null) {
       setErrorPhone('Informe o telefone!')
       error = true
     }
@@ -121,51 +121,51 @@ export default function Register({}) {
   }
 
   const loginSignUp = () => {
-    if(validate()){
+    if (validate()) {
       users_collection.doc(email).get().then((docSnapshot) => {
-        if(docSnapshot.exists){
+        if (docSnapshot.exists) {
           auth
             .signInWithEmailAndPassword(email, password)
             .then(userCredentials => {
               const user = userCredentials.user;
-              console.log('Login com: ',user.email);
+              console.log('Login com: ', user.email);
               registerSingUp();
-          })
-          .catch(error => alert(error.message))
+            })
+            .catch(error => alert(error.message))
         }
-        else{
+        else {
           auth
-          .createUserWithEmailAndPassword(email, password)
-          .then(userCredentials => {
+            .createUserWithEmailAndPassword(email, password)
+            .then(userCredentials => {
               const user = userCredentials.user;
-              console.log('Registrado com: ',user.email);
-          })
-          .catch(error => alert(error.message))
+              console.log('Registrado com: ', user.email);
+            })
+            .catch(error => alert(error.message))
         }
       })
       registerSingUp();
     }
-    else{
+    else {
       console.log('ERRRRRROOOR')
     }
   }
 
   return (
-    <KeyboardAvoidingView 
-      behavior={Platform.OS == "ios" ? "padding" : "height"} 
+    <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
       style={[css.container, specificStyle.specificConteiner]}
     >
-      <ScrollView style={{width:"95%"}}>
-        
-        <View style = {css.loginLogomarca}>
-          <Image source={require('../assets/img/logo.png')}/>
+      <ScrollView style={{ width: "95%" }}>
+
+        <View style={css.loginLogomarca}>
+          <Image source={require('../assets/img/logo.png')} />
         </View>
 
-        <View>   
-          <Text style={[css.separator, css.greenText]}>INFORMAÇÕES DE PERFIL</Text>   
+        <View>
+          <Text style={[css.separator, css.greenText]}>INFORMAÇÕES DE PERFIL</Text>
           <TextInput style={css.loginInput}
             placeholder="E-mail"
-            value = {email}
+            value={email}
             onChangeText={value => {
               setEmail(value)
               setErrorEmail(null)
@@ -176,7 +176,7 @@ export default function Register({}) {
           <Text style={css.errorMessage}>{errorEmail}</Text>
           <TextInput style={css.loginInput}
             placeholder="Senha"
-            value = {password}
+            value={password}
             leftIcon={{ type: 'font-awesome', name: 'lock' }}
             onChangeText={value => {
               setPassword(value)
@@ -187,7 +187,7 @@ export default function Register({}) {
           <Text style={css.errorMessage}>{errorPassword}</Text>
           <TextInput style={css.loginInput}
             placeholder="Confirmação de senha"
-            value = {confirmPass}
+            value={confirmPass}
             leftIcon={{ type: 'font-awesome', name: 'lock' }}
             onChangeText={value => {
               setConfirmPass(value)
@@ -200,7 +200,7 @@ export default function Register({}) {
           <Text style={[css.separator, css.greenText]}>INFORMAÇÕES PESSOAIS</Text>
           <TextInput style={css.loginInput}
             placeholder="Nome Completo"
-            value = {fullName}
+            value={fullName}
             onChangeText={value => {
               setFullName(value)
               setErrorFullName(null)
@@ -210,7 +210,7 @@ export default function Register({}) {
           <Text style={css.errorMessage}>{errorFullName}</Text>
           <TextInput style={css.loginInput}
             placeholder="Idade"
-            value = {age}
+            value={age}
             keyboardType="number-pad"
             onChangeText={value => {
               setAge(value)
@@ -221,7 +221,7 @@ export default function Register({}) {
           <Text style={css.errorMessage}>{errorAge}</Text>
           <TextInput style={css.loginInput}
             placeholder="Estado"
-            value = {state}
+            value={state}
             onChangeText={value => {
               setState(value)
               setErrorState(null)
@@ -231,7 +231,7 @@ export default function Register({}) {
           <Text style={css.errorMessage}>{errorState}</Text>
           <TextInput style={css.loginInput}
             placeholder="Cidade"
-            value = {city}
+            value={city}
             onChangeText={value => {
               setCity(value)
               setErrorCity(null)
@@ -241,7 +241,7 @@ export default function Register({}) {
           <Text style={css.errorMessage}>{errorCity}</Text>
           <TextInput style={css.loginInput}
             placeholder="Endereço"
-            value = {address}
+            value={address}
             onChangeText={value => {
               setAddress(value)
               setErrorAddress(null)
@@ -251,7 +251,7 @@ export default function Register({}) {
           <Text style={css.errorMessage}>{errorAddress}</Text>
           <TextInput style={css.loginInput}
             placeholder="Telefone"
-            value = {phone}
+            value={phone}
             keyboardType="number-pad"
             onChangeText={value => {
               setPhone(value)
@@ -264,7 +264,7 @@ export default function Register({}) {
 
 
         <View style={css.buttonContainer_Scroll}>
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={loginSignUp}
             style={[css.buttonGreen]}
           >

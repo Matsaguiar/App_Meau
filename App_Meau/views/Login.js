@@ -12,21 +12,21 @@ const Login = () => {
   const [errorEmail, setErrorEmail] = useState('')
   const [errorPassword, setErrorPassword] = useState('')
 
-  const navigation = useNavigation() 
+  const navigation = useNavigation()
 
   useEffect(() => {
     const loginState = auth.onAuthStateChanged(user => {
-        if(user){
-          users_collection.doc(user.email).get().then((docSnapshot) => {
-            if(docSnapshot.exists){
-              navigation.replace("LoginScreen")
-            }
-            else{
-              // navigation.replace("Register") 
-            }
-          })
-        }
-      })
+      if (user) {
+        users_collection.doc(user.email).get().then((docSnapshot) => {
+          if (docSnapshot.exists) {
+            navigation.replace("LoginScreen")
+          }
+          else {
+            // navigation.replace("Register") 
+          }
+        })
+      }
+    })
   }, [])
 
   const validate = () => {
@@ -36,11 +36,11 @@ const Login = () => {
 
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-    if(!re.test(String(email).toLowerCase()) || email == null){
+    if (!re.test(String(email).toLowerCase()) || email == null) {
       setErrorEmail("Informe o e-mail corretamente!")
       error = true
     }
-    if(password == null){
+    if (password == null) {
       setErrorPassword("Insira a senha!")
       error = true
     }
@@ -48,32 +48,32 @@ const Login = () => {
   }
 
   const loginSignIn = () => {
-    if(validate()){
+    if (validate()) {
       auth
         .signInWithEmailAndPassword(email, password)
         .then(userCredentials => {
           const user = userCredentials.user;
-          console.log('Login com: ',user.email);
+          console.log('Login com: ', user.email);
           navigation.replace("LoginScreen")
-      })
-      .catch(error => alert(error.message))
-    }else{
+        })
+        .catch(error => alert(error.message))
+    } else {
       console.log('ERRRRRROOOR')
     }
   }
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={[css.container, css.bg]}>
-    {/* <KeyboardAvoidingView style={[css.container]}> */}
+      {/* <KeyboardAvoidingView style={[css.container]}> */}
 
-      <View style = {css.loginLogomarca}>
-        <Image source={require('../assets/img/logo.png')}/>
+      <View style={css.loginLogomarca}>
+        <Image source={require('../assets/img/logo.png')} />
       </View>
       <View style={css.registration}></View>
-      <View style={{width:"80%"}}>   
+      <View style={{ width: "80%" }}>
         <TextInput style={css.loginInput}
           placeholder="E-mail"
-          value = {email}
+          value={email}
           onChangeText={value => {
             setEmail(value)
             setErrorEmail(null)
@@ -83,7 +83,7 @@ const Login = () => {
         <Text style={css.errorMessage}>{errorEmail}</Text>
         <TextInput style={css.loginInput}
           placeholder="Senha"
-          value = {password}
+          value={password}
           leftIcon={{ type: 'font-awesome', name: 'lock' }}
           onChangeText={value => {
             setPassword(value)
@@ -92,7 +92,7 @@ const Login = () => {
           secureTextEntry
         />
         <Text style={css.errorMessage}>{errorPassword}</Text>
-        <Text 
+        <Text
           style={css.forgetPassword}
           onPress={() => navigation.navigate("ForgotPassword")}
         >
@@ -101,19 +101,19 @@ const Login = () => {
       </View>
 
       <View style={css.buttonContainer}>
-        <TouchableOpacity  
+        <TouchableOpacity
           onPress={loginSignIn}
           style={css.buttonGreen}
         >
           <Text style={css.button}>Entrar</Text>
         </TouchableOpacity>
-        <Text 
+        <Text
           style={css.greenText}
           onPress={() => navigation.navigate("Register")}
         >
-          Criar nova conta 
+          Criar nova conta
         </Text>
-      <View style={{height:100}}/>
+        <View style={{ height: 100 }} />
       </View>
     </KeyboardAvoidingView>
   )

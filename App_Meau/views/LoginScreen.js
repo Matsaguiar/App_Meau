@@ -4,7 +4,7 @@ import { css } from '../assets/css/Css'
 import { auth, db, storage } from '../firebase'
 import { useNavigation } from '@react-navigation/native'
 import * as ImagePicker from 'expo-image-picker';
-import uuid from 'react-native-uuid'; 
+import uuid from 'react-native-uuid';
 
 
 const LoginScreen = () => {
@@ -41,7 +41,7 @@ const LoginScreen = () => {
   useEffect(async () => {
 
     console.log('second')
-    if(userProfilePicture === '' || userProfilePicture === undefined) return
+    if (userProfilePicture === '' || userProfilePicture === undefined) return
 
     const userProfilePicture = await storage.ref('imgUsers/' + userProfilePicture).getDownloadURL();
 
@@ -56,7 +56,7 @@ const LoginScreen = () => {
       .then(() => {
         navigation.replace("Home")
       })
-      .catch(error => alert(error.message)) 
+      .catch(error => alert(error.message))
   }
 
   let openImagePickerAsync = async () => {
@@ -71,12 +71,12 @@ const LoginScreen = () => {
     let pickerResult = await ImagePicker.launchImageLibraryAsync();
 
     if (pickerResult.cancelled === true) {
-        console.log("cancelled");
-        return;
+      console.log("cancelled");
+      return;
     }
-    
+
     let imageId = uuid.v4();
-    
+
     setImage(pickerResult.uri);
     setImageUuid(imageId);
 
@@ -84,7 +84,7 @@ const LoginScreen = () => {
     console.log(imageUuid)
 
   }
-  
+
   const uploadImage = async (uri, imageName) => {
 
     db.collection('Users').doc(auth.currentUser?.email).set({
@@ -97,7 +97,7 @@ const LoginScreen = () => {
     const blob = await response.blob();
     const ref = storage.ref().child('imgUsers/' + imageName);
     return ref.put(blob);
-}
+  }
 
   const listAnimals = () => {
     navigation.replace("ListAnimals")
@@ -111,61 +111,46 @@ const LoginScreen = () => {
     <View style={css.container}>
 
       {
-        userProfilePicture ? 
-        <Image source={{uri : userProfilePicture}} style={{width:150, height: 200, borderRadius : '200px', borderWidth: '5px', borderColor : '#88c9bf', marginBottom : '10px'}}/>
-      : null
+        userProfilePicture ?
+          <Image source={{ uri: userProfilePicture }} style={{ width: 150, height: 200, borderRadius: '200px', borderWidth: '5px', borderColor: '#88c9bf', marginBottom: '10px' }} />
+          : null
       }
 
       <Text>Bem vindo: {auth.currentUser?.email}</Text>
-      <TouchableOpacity 
+      <TouchableOpacity
         onPress={hendleSignOut}
         style={css.buttonGreen}
-      > 
+      >
         <Text style={css.buttonText}>Sair</Text>
       </TouchableOpacity>
-      
 
-    {image ? <Image source={{uri : image}} style = {{width: 200, height: 200}}/> : null}
-
-    {
-      image ? 
       <TouchableOpacity
-        onPress={ () => uploadImage(image, imageUuid)}
+        onPress={openImagePickerAsync}
         style={css.buttonGreen}
       >
-        <Text style={css.buttonText}>Upload</Text>
-
-      </TouchableOpacity> : null
-    }
-
-
-    <TouchableOpacity
-      onPress={openImagePickerAsync}
-      style={css.buttonGreen}
-    >
-      <Text style={css.buttonText}>Foto Usuário</Text>
-    </TouchableOpacity>
+        <Text style={css.buttonText}>Foto Usuário</Text>
+      </TouchableOpacity>
 
 
 
-    <TouchableOpacity
-      onPress={listAnimals}
-      style={css.buttonGreen}
-    >
-      <Text style={css.buttonText}>Meus Animais</Text>
-    </TouchableOpacity>
+      <TouchableOpacity
+        onPress={listAnimals}
+        style={css.buttonGreen}
+      >
+        <Text style={css.buttonText}>Meus Animais</Text>
+      </TouchableOpacity>
 
-      <TouchableOpacity 
+      <TouchableOpacity
         onPress={registerAnimal}
         style={css.buttonGreen}
-      > 
+      >
         <Text style={css.buttonText}>Cadastrar Animal</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity 
+      <TouchableOpacity
         onPress={() => navigation.navigate("AdoptionList")}
         style={css.buttonGreen}
-      > 
+      >
         <Text style={css.buttonText}>Lista de Adoção</Text>
       </TouchableOpacity>
 
