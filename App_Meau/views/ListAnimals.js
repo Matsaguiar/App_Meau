@@ -67,13 +67,6 @@ const ListAnimals = () => {
                 keyExtractor = {(item) => item.name}
                 ItemSeparatorComponent = {ItemSeparatorView}
             />
-
-            {/* <Text>Usando map:</Text>
-
-            {
-                animals.map((animal) => {<Text>{animal.name}</Text>})
-            } */}
-
         </View>
     )
 }

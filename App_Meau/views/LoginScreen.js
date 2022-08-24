@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, Image } from 'react-native'
+import { Text, View, TouchableOpacity, Image, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { css } from '../assets/css/Css'
 import { auth, db, storage } from '../firebase'
@@ -60,36 +60,49 @@ const LoginScreen = () => {
 
     setImage(pickerResult.uri);
     setImageUuid(imageId);
+  }
+  const deleteOldImage = async () => {
 
-    console.log(image)
-    console.log(imageUuid)
+    const ref = storage.refFromURL(userProfilePicture);
+    
+    ref.delete()
+    .then(() => {
+      console.log("Imagem " + userProfilePicture + " deletada com sucesso")
+    }).catch(error => {
+      console.log(error)
+    });
+  }
 
+  const updateUserImage = async (uri, imageName) => {
+
+    await uploadImage(uri, imageName)
+    
+    let newImageUrl = await storage.ref('imgUsers/' + imageUuid).getDownloadURL();
+
+    deleteOldImage();
+
+    db.collection('Users').doc(auth.currentUser?.email).set({
+      profilePicture: newImageUrl,
+    })
+    .then( () => {
+      setUserProfilePicture(newImageUrl)
+      setImage('')
+    })
+    .catch(error => {
+      console.log(error)
+    });
   }
 
   const uploadImage = async (uri, imageName) => {
-
-    db.collection('Users').doc(auth.currentUser?.email).set({
-      profilePicture: imageName
-    });
-
-    console.log("Image: ", image + " ImageUuid: ", imageUuid);
 
     const response = await fetch(uri);
     const blob = await response.blob();
     const ref = storage.ref().child('imgUsers/' + imageName);
     return ref.put(blob);
-  }
+}
 
-  const listAnimals = () => {
-    navigation.replace("ListAnimals")
-  }
-
-  const registerAnimal = () => {
-    navigation.replace("AnimalRegister")
-  }
-
-  return (
-    <View style={css.container}>
+return (
+    <ScrollView /*style={css.container}*/>
 
       {
         userProfilePicture !== '' ?
@@ -119,7 +132,7 @@ const LoginScreen = () => {
       {
         image !== '' ? 
         <TouchableOpacity
-          onPress={() => uploadImage(image, imageUuid)}
+          onPress={() => updateUserImage(image, imageUuid)}
           style={css.buttonGreen}
         >
           <Text>Upload</Text>
@@ -129,14 +142,14 @@ const LoginScreen = () => {
       }
 
       <TouchableOpacity
-        onPress={listAnimals}
+        onPress={ () => navigation.navigate('ListAnimals') }
         style={css.buttonGreen}
       >
         <Text style={css.buttonText}>Meus Animais</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={registerAnimal}
+        onPress={() => navigation.navigate('AnimalRegister')}
         style={css.buttonGreen}
       >
         <Text style={css.buttonText}>Cadastrar Animal</Text>
@@ -149,7 +162,7 @@ const LoginScreen = () => {
         <Text style={css.buttonText}>Lista de Adoção</Text>
       </TouchableOpacity>
 
-    </View>
+    </ScrollView>
   )
 }
 

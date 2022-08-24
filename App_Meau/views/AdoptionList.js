@@ -42,8 +42,7 @@ const AdoptionList = () => {
   };
 
   const renderItem = ({ item }) => {
-    console.log(item)
-    //if(item.ProfilePicture === undefined) {
+    
     return (
       <View>
         {/* <Card style={{ width: '18rem' }}>

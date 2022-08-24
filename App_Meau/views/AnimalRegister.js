@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, TextInput, Alert } from 'react-native'
+import { Text, View, TouchableOpacity, TextInput, Alert, ScrollView } from 'react-native'
 import React from 'react'
 import { useState } from 'react'
 import { css } from '../assets/css/Css'
@@ -117,26 +117,7 @@ const AnimalRegister = () => {
 
   return (
 
-    <View style={css.container}>
-
-      {/* <Text>Tenho interesse em cadastrar o animal para:</Text>
-
-        <View>
-          <TouchableOpacity style={css.buttonGreen}>
-            <Text>Adoção</Text>
-          </TouchableOpacity>
-         
-         
-          <TouchableOpacity style={css.buttonGreen}>
-            <Text>Apadrinhar</Text>
-          </TouchableOpacity>
-          
-          
-          <TouchableOpacity style={css.buttonGreen}>
-            <Text>Ajuda</Text>
-          </TouchableOpacity>
-
-        </View> */}
+    <ScrollView /*style={css.container}*/>
 
       <TextInput style={css.loginInput}
         placeholder="Nome"
@@ -144,7 +125,7 @@ const AnimalRegister = () => {
         onChangeText={(text) => setName(text)}
       />
 
-      {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+      {image !== '' ? <Image source={{ uri: image }} style={{ width: 200, height: 200 }}/> : null }
 
       <TouchableOpacity
         style={css.buttonGreen}
@@ -180,7 +161,7 @@ const AnimalRegister = () => {
         <Text style={css.buttonText}>Voltar</Text>
       </TouchableOpacity>
 
-    </View>
+    </ScrollView>
 
   )
 
