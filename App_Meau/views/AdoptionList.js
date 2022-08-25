@@ -1,11 +1,12 @@
-import { Text, View, TouchableOpacity } from 'react-native'
+import { KeyboardAvoidingView, Platform, TextInput, Image, Alert, TouchableOpacity, Text, View, ScrollView } from 'react-native';
 import React from 'react'
+import { StyleSheet } from "react-native";
 import { css } from '../assets/css/Css'
 import { auth, db, storage } from '../firebase'
 import { useNavigation } from '@react-navigation/native'
 import * as ImagePicker from 'expo-image-picker';
 import { useState, useEffect } from 'react'
-import { Image, FlatList } from 'react-native'
+import { FlatList } from 'react-native'
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
@@ -42,7 +43,7 @@ const AdoptionList = () => {
   };
 
   const renderItem = ({ item }) => {
-    
+
     return (
       <View>
 
@@ -60,40 +61,59 @@ const AdoptionList = () => {
             </TouchableOpacity>
             </Card.Body>
           </Card> */}
+        {
+          item.profilePicture ?
+            <Image source={{ uri: item.profilePicture }} style={{ width: 200, height: 250 }} />
+            : null
+        }
 
-        
         <Text>Nome: {item.name}</Text>
         <Text>Idade: {item.age}</Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("AnimalPage", { animal: item})}
-            style={css.buttonGreen}
-          >
-            <Text style={css.buttonText}>Mais Detalhes</Text>
-          </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("AnimalPage", { animal: item })}
+          style={css.buttonGreen}
+        >
+          <Text style={css.buttonText}>Mais Detalhes</Text>
+        </TouchableOpacity>
       </View>
-    )
+    );
   };
 
   return (
-    <View>
-      <Text style={{fontSize: 25, marginBottom: 15}}>Animais para Adoção</Text>
+    <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      style={[css.container, specificStyle.specificConteiner]}
+    >
+      <ScrollView style={{ width: "95%" }}>
+        <View>
+          <FlatList
+            data={animals}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.name}
+            ItemSeparatorComponent={ItemSeparatorView}
+          />
 
-      <FlatList
-        data={animals}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.name}
-        ItemSeparatorComponent={ItemSeparatorView}
-      />
+          <TouchableOpacity
+            onPress={() => navigation.navigate("LoginScreen")}
+            style={css.buttonGreen}
+          >
+            <Text style={css.buttonText}>Sair</Text>
+          </TouchableOpacity>
 
-      <TouchableOpacity
-        onPress={() => navigation.navigate("LoginScreen")}
-        style={css.buttonGreen}
-      >
-        <Text style={css.buttonText}>Sair</Text>
-      </TouchableOpacity>
-
-    </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   )
 }
+const specificStyle = StyleSheet.create({
+  specificConteiner: {
+    backgroundColor: "#fff",
+    padding: 10
+  },
+  title: {
+    fontSize: 30,
+    color: '#434343',
+  },
+})
 
 export default AdoptionList

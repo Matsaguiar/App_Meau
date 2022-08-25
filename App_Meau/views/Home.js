@@ -5,7 +5,7 @@ import { css } from '../assets/css/Css';
 
 const Home = () => {
   const navigation = useNavigation()
-  return(
+  return (
     //<KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={[css.container, css.bg]}>
     <KeyboardAvoidingView style={css.container}>
       <View style={css.loginLogomarca}>
@@ -28,7 +28,7 @@ const Home = () => {
           <Text style={css.buttonText}>LOGIN</Text>
         </TouchableOpacity>
       </View>
-      </KeyboardAvoidingView>
+    </KeyboardAvoidingView>
   )
 }
 

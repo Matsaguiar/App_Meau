@@ -1,4 +1,4 @@
-import { Text, View} from 'react-native'
+import { Text, View } from 'react-native'
 import React from 'react'
 import { css } from '../assets/css/Css'
 import { auth, db, storage } from '../firebase'
@@ -7,68 +7,68 @@ import { useState, useEffect } from 'react'
 import { Image, FlatList } from 'react-native'
 
 const ListAnimals = () => {
-    
-    const [animals, setAnimals] = useState([])
 
-    const loadData = () => {
-        
-        const animalList = [];
+  const [animals, setAnimals] = useState([])
 
-        db.collection("Users").doc(auth.currentUser?.email).collection("Meus_animais").get()
-        .then((querySnapshot) => {
+  const loadData = () => {
 
-            querySnapshot.forEach((doc) => { animalList.push(doc.data()) });
+    const animalList = [];
 
-            setAnimals(animalList)
-        });
-    }
+    db.collection("Users").doc(auth.currentUser?.email).collection("Meus_animais").get()
+      .then((querySnapshot) => {
 
-    useEffect(loadData, []);    
+        querySnapshot.forEach((doc) => { animalList.push(doc.data()) });
 
-    
+        setAnimals(animalList)
+      });
+  }
 
-    const ItemSeparatorView = () => {
-        return (
-          //Item Separator
-          <View
-            style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8'}}
-          />
-        );
-    };
+  useEffect(loadData, []);
 
 
-    const renderItem = ({ item }) => {
 
-        if(item.profilePicture === undefined || item.profilePicture === '') {
-            return (
-                <View>
-                    <Text>{item.name}</Text>
-                </View>
-            );
-        }
-        
-        return (
-            <View>
-                <Image source={{ uri: item.profilePicture }} style={{ width: 200, height: 200 }} />
-                <Text>{item.name}</Text>
-            </View>
-        );
+  const ItemSeparatorView = () => {
+    return (
+      //Item Separator
+      <View
+        style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8' }}
+      />
+    );
+  };
+
+
+  const renderItem = ({ item }) => {
+
+    if (item.profilePicture === undefined || item.profilePicture === '') {
+      return (
+        <View>
+          <Text>{item.name}</Text>
+        </View>
+      );
     }
 
     return (
+      <View>
+        <Image source={{ uri: item.profilePicture }} style={{ width: 200, height: 200 }} />
+        <Text>{item.name}</Text>
+      </View>
+    );
+  }
 
-        <View>
+  return (
 
-            <Text style={{fontSize: 25, marginBottom: 15}}>Meus Animais</Text>
+    <View>
 
-            <FlatList
-                data = {animals}
-                renderItem = {renderItem}
-                keyExtractor = {(item) => item.name}
-                ItemSeparatorComponent = {ItemSeparatorView}
-            />
-        </View>
-    )
+      <Text style={{ fontSize: 25, marginBottom: 15 }}>Meus Animais</Text>
+
+      <FlatList
+        data={animals}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.name}
+        ItemSeparatorComponent={ItemSeparatorView}
+      />
+    </View>
+  )
 }
 
 export default ListAnimals
