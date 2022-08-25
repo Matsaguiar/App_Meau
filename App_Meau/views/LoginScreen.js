@@ -40,6 +40,29 @@ const LoginScreen = () => {
       .catch(error => alert(error.message))
   }
 
+  const openCamera = async () => {
+    // Ask the user for the permission to access the camera
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this appp to access your camera!");
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync();
+
+    // Explore the result
+    console.log(result);
+
+    if (!result.cancelled) {
+      console.log(result.uri);
+
+      setImage(result.uri);
+      setImageUuid(uuid.v4());
+    }
+
+  }
+
   let openImagePickerAsync = async () => {
 
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -110,21 +133,6 @@ return (
           : null
       }
 
-      <Text>Bem vindo: {auth.currentUser?.email}</Text>
-      <TouchableOpacity
-        onPress={hendleSignOut}
-        style={css.buttonGreen}
-      >
-        <Text style={css.buttonText}>Sair</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={openImagePickerAsync}
-        style={css.buttonGreen}
-      >
-        <Text style={css.buttonText}>Foto Usuário</Text>
-      </TouchableOpacity>
-
       {
         image !== '' ? <Image source={{ uri: image }} style={{ width: 150, height: 200, borderRadius: 200, borderWidth: 5, borderColor: '#88c9bf', marginBottom: 10 }} /> : null
       }
@@ -140,6 +148,29 @@ return (
         </TouchableOpacity>
         : null
       }
+
+      <Text>Bem vindo: {auth.currentUser?.email}</Text>
+      <TouchableOpacity
+        onPress={hendleSignOut}
+        style={css.buttonGreen}
+      >
+        <Text style={css.buttonText}>Sair</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={openCamera}
+        style={css.buttonGreen}
+      >
+        <Text style={css.buttonText}>Foto Usuário usando Câmera</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={openImagePickerAsync}
+        style={css.buttonGreen}
+      >
+        <Text style={css.buttonText}>Foto Usuário</Text>
+      </TouchableOpacity>
+
 
       <TouchableOpacity
         onPress={ () => navigation.navigate('ListAnimals') }
