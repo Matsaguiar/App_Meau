@@ -63,7 +63,7 @@ export default function AnimalRegister({ }) {
         sick: sick,
         history: history,
         adoption: !adoption,
-        owner: db.collection('Users').doc(auth.currentUser?.email),
+        owner: auth.currentUser?.email,
         profilePicture: imageUrl,
       })
       .then(() => {

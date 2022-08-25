@@ -21,7 +21,7 @@ const AdoptionList = () => {
 
   const loadData = () => {
     animals_collections
-      .where('owner', '!=', db.collection('Users').doc(auth.currentUser?.email))
+      .where('owner', '!=', (auth.currentUser?.email), 'owner', '!=', db.collection('Users').doc(auth.currentUser?.email))
       .get()
       .then((querySnapshot) => {
         const adoptionList = [];
@@ -99,7 +99,7 @@ const AdoptionList = () => {
             onPress={() => navigation.navigate("LoginScreen")}
             style={css.buttonGreen}
           >
-            <Text style={css.buttonText}>Sair</Text>
+            <Text style={css.buttonText}>Voltar</Text>
           </TouchableOpacity>
 
         </View>

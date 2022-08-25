@@ -26,7 +26,7 @@ const AnimalPage = ({ route }) => {
       .set({
         owner: route.params.animal.owner,
         animal: route.params.animal.name,
-        newOwner: db.collection('Users').doc(auth.currentUser?.email),
+        newOwner: (auth.currentUser?.email),
        // idAnimal: route.params.animal.id,
       })
       .then(() => {
@@ -41,10 +41,8 @@ const AnimalPage = ({ route }) => {
 
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS == "ios" ? "padding" : "height"}
-      style={[specificStyle.specificConteiner]}
-    >
+    // <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={[css.container, css.bg]}>
+    <KeyboardAvoidingView style={[css.container]}>
       {
         route.params.animal.profilePicture ?
           <Image source={{ uri: route.params.animal.profilePicture }} style={{ width: 200, height: 250 }} />

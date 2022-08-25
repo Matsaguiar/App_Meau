@@ -3,77 +3,63 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { auth, db, storage } from '../firebase'
 import { useNavigation } from '@react-navigation/native'
-import { Audio } from 'expo-av';
-
-//pAREI NA INSTALAÇÃO DO AUDIO
+import { css } from '../assets/css/Css'
+//import * as Notifications from 'expo-notifications';
 
 const Notification = () => {
   const navigation = useNavigation()
   const user_collection = db.collection('Users');
-  const notification_colletions = db.collection('Notifications');
+  const notification_colletion = db.collection('Notifications');
   const [listNotifications, setListNotifications] = useState([]);
-  const [sound, setSound] = React.useState();
 
-  const getNotifications = async () => {
+  const getNotifications = () => {
     console.log('Searching for news notifications');
-    const email = db.collection('Users').doc(auth.currentUser?.email)
-    let aux = [];
+    const email = (auth.currentUser?.email)
+    console.log(email)
 
-    await db.collection('notifications')
+    notification_colletion
       .where('owner', '==', email).get()
       .then((querySnapshot) => {
+        const aux = [];
         querySnapshot.forEach((doc) => {
-
-          const noti = {
-            //idAnimal: doc.get('idAnimal'),
-            animal: doc.get('animal'),
-            owner: doc.get('owner'),
-            newOwner: doc.get('newOwner'),
-          };
-          aux.push(noti);
-
-          //if(doc.get('notified') == false){
-          playSoundNotification();
-          updateNotification(doc.id)
-          //}
-
+          aux.push(doc.data())
         });
+        setListNotifications(aux);
       }).catch((e) => {
         console.error('Error: ' + e);
       });
-    setListNotifications(aux);
     setTimeout(getNotifications, 10000);
   }
 
+  useEffect(getNotifications, []);
 
-  async function playSoundNotification() {
-    const { sound } = await Audio.Sound.createAsync(require('../src/meow.mp3'));
-    setSound(sound);
-    await sound.playAsync()
-  }
-
-  // function updateNotification(id) {
-  //   console.log('Update state of notification');
-  //   const update = firebase.firestore();
-  //   update.collection('notifications').doc(id).update({
-  //     notified: true
-  //   })
+  // async function schedulePushNotification() {
+  //   await Notifications.scheduleNotificationAsync({
+  //     content: {
+  //       title: "Você tem uma notificação! 📬",
+  //       body: '',
+  //       data: { data: 'goes here' },
+  //     },
+  //     trigger: { seconds: 2 },
+  //   });
   // }
 
-  useEffect(() => {
-    getNotifications();
-  }, []);
-
-  return(
+  return (
     <View style={{ flex: 1 }}>
-    <ScrollView>
-      {listNotifications.map(({ animal, owner, newowner}) => (
-        <View>
-          <Text>{newowner} está pedindo para adotar o {animal}</Text>
-        </View>
-      ))}
-    </ScrollView>
-  </View>
+      <ScrollView>
+        {listNotifications.map(({ animal, newOwner }) => (
+          <View style={[css.container]}>
+            <Text>{newOwner} está pedindo para adotar o {animal}</Text>
+          </View>
+        ))}
+        {/* <Button
+          title="Disparar notificação"
+          onPress={async () => {
+            await schedulePushNotification();
+          }}
+        /> */}
+      </ScrollView>
+    </View>
   );
 };
 
