@@ -51,7 +51,7 @@ export default function AnimalRegister({ }) {
       });
 
 
-    animals_collections.doc(name)
+    animals_collections.doc()
       .set({
         name: name,
         species: species,
@@ -63,7 +63,7 @@ export default function AnimalRegister({ }) {
         sick: sick,
         history: history,
         adoption: !adoption,
-        tutor: db.collection('Users').doc(auth.currentUser?.email),
+        owner: db.collection('Users').doc(auth.currentUser?.email),
         profilePicture: imageUrl,
       })
       .then(() => {

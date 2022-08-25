@@ -12,6 +12,7 @@ import ListAnimals from './views/ListAnimals';
 import AdoptionList from './views/AdoptionList';
 import AnimalPage from './views/AnimalPage';
 import ImageUpload from './views/ImageUpload';
+import Notification from './views/Notification';
 
 export default function App() {
 
@@ -98,6 +99,16 @@ export default function App() {
             title: 'Detalhes do animal',
             headerStyle: {
               backgroundColor: '#ffd358'
+            },
+            headerTintColor: '#434343',
+            headerShown: true
+          }}
+        />
+        <Stack.Screen name="Notification" component={Notification}
+          options={{
+            title: 'Notificações',
+            headerStyle: {
+              backgroundColor: '#cfe9e5'
             },
             headerTintColor: '#434343',
             headerShown: true

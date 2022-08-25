@@ -170,6 +170,13 @@ const LoginScreen = () => {
           >
             <Text style={css.buttonText}>Lista de Adoção</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Notification")}
+            style={css.buttonGreen}
+          >
+            <Text style={css.buttonText}>Notificação</Text>
+          </TouchableOpacity>
         </View>
 
       </ScrollView>

@@ -24,12 +24,13 @@ const AnimalPage = ({ route }) => {
   const notification = () => {
     notification_colletions.doc()
       .set({
-        tutor: route.params.animal.tutor,
+        owner: route.params.animal.owner,
         animal: route.params.animal.name,
-        newTutor: db.collection('Users').doc(auth.currentUser?.email),
+        newOwner: db.collection('Users').doc(auth.currentUser?.email),
+       // idAnimal: route.params.animal.id,
       })
       .then(() => {
-        Alert(' Notificação enviada com sucesso!')
+        Alert.alert(' Notificação enviada com sucesso!')
         console.log(' Notificação enviada com sucesso!')
         navigation.replace("LoginScreen")
       })

@@ -20,7 +20,9 @@ const AdoptionList = () => {
   const [animals, setAnimals] = useState([]);
 
   const loadData = () => {
-    animals_collections.get()
+    animals_collections
+      .where('owner', '!=', db.collection('Users').doc(auth.currentUser?.email))
+      .get()
       .then((querySnapshot) => {
         const adoptionList = [];
         querySnapshot.forEach((doc) => {
