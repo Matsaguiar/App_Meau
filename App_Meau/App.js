@@ -13,6 +13,7 @@ import AdoptionList from './views/AdoptionList';
 import AnimalPage from './views/AnimalPage';
 import ImageUpload from './views/ImageUpload';
 import Notification from './views/Notification';
+import UserChats from './views/UserChats';
 
 export default function App() {
 
@@ -114,6 +115,18 @@ export default function App() {
             headerShown: true
           }}
         />
+
+        <Stack.Screen name="UserChats" component={UserChats}
+          options={{
+            title: 'Suas Conversas',
+            headerStyle: {
+              backgroundColor: '#cfe9e5'
+            },
+            headerTintColor: '#434343',
+            headerShown: true
+          }}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

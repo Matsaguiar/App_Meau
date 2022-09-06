@@ -177,6 +177,14 @@ const LoginScreen = () => {
           >
             <Text style={css.buttonText}>Notificação</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate("UserChats")}
+            style={css.buttonGreen}
+          >
+            <Text style={css.buttonText}>Minhas Conversas</Text>
+          </TouchableOpacity>
+
         </View>
 
       </ScrollView>
