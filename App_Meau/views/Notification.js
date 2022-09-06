@@ -1,4 +1,4 @@
-import { Text, View, ScrollView } from 'react-native'
+import { Text, View, ScrollView, Button } from 'react-native'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { auth, db, storage } from '../firebase'
@@ -33,16 +33,16 @@ const Notification = () => {
 
   useEffect(getNotifications, []);
 
-  // async function schedulePushNotification() {
-  //   await Notifications.scheduleNotificationAsync({
-  //     content: {
-  //       title: "Você tem uma notificação! 📬",
-  //       body: '',
-  //       data: { data: 'goes here' },
-  //     },
-  //     trigger: { seconds: 2 },
-  //   });
-  // }
+  async function schedulePushNotification() {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Você tem uma notificação! 📬",
+        body: '',
+        data: { data: 'goes here' },
+      },
+      trigger: { seconds: 2 },
+    });
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -52,12 +52,12 @@ const Notification = () => {
             <Text>{newOwner} está pedindo para adotar o {animal}</Text>
           </View>
         ))}
-        {/* <Button
+        <Button
           title="Disparar notificação"
           onPress={async () => {
             await schedulePushNotification();
           }}
-        /> */}
+        />
       </ScrollView>
     </View>
   );
