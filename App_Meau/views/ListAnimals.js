@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native'
+import { Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { css } from '../assets/css/Css'
 import { auth, db, storage } from '../firebase'
@@ -25,8 +25,6 @@ const ListAnimals = () => {
 
   useEffect(loadData, []);
 
-
-
   const ItemSeparatorView = () => {
     return (
       //Item Separator
@@ -35,7 +33,6 @@ const ListAnimals = () => {
       />
     );
   };
-
 
   const renderItem = ({ item }) => {
 
@@ -56,17 +53,19 @@ const ListAnimals = () => {
   }
 
   return (
-
     <View>
-
-      <Text style={{ fontSize: 25, marginBottom: 15 }}>Meus Animais</Text>
-
       <FlatList
         data={animals}
         renderItem={renderItem}
         keyExtractor={(item) => item.name}
         ItemSeparatorComponent={ItemSeparatorView}
       />
+      <TouchableOpacity
+        onPress={() => navigation.navigate("LoginScreen")}
+        style={css.buttonGreen}
+      >
+        <Text style={css.buttonText}>Voltar</Text>
+      </TouchableOpacity>
     </View>
   )
 }

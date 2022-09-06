@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { auth, db, storage } from '../firebase'
 import { useNavigation } from '@react-navigation/native'
 import { css } from '../assets/css/Css'
-//import * as Notifications from 'expo-notifications';
+import * as Notifications from 'expo-notifications';
 
 const Notification = () => {
   const navigation = useNavigation()
