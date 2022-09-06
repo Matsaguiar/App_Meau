@@ -5,29 +5,63 @@ import { auth, db, storage } from '../firebase'
 
 const UserChats = () => {
 
-    const chatting_with = "user2@usr.com";
+    const chatting_with = "user1@usr.com";
 
-    
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
 
-        const chat = db.collection('Users').doc(auth.currentUser?.email).collection('Chat').orderBy('createdAt', 'desc')
-        .onSnapshot(querySnapshot => { setMessages(
-            querySnapshot.docs.map(doc => (
+        console.log("Entrou no useEffect");
+        
+        let all_messages = [];
+        let received_messages = [];
+        let sent_messages = [];
+        
+        db.collection('Users').doc(auth.currentUser?.email).collection('Chat')
+        .where('user._id', '==', chatting_with)
+        // .orderBy('createdAt', 'desc')
+        .onSnapshot(querySnapshot => {
+            
+            received_messages = []
 
+            querySnapshot.docs.map(doc => (
                 {
                     ...doc.data(),
                     createdAt: doc.data().createdAt.toDate(),
                 }
-            )));
+                ))
+                .forEach(doc => received_messages.push(doc))
         })
+        
+        db.collection('Users').doc(auth.currentUser?.email).collection('Chat')
+        .where('sentTo', '==', chatting_with)
+        // // .orderBy('createdAt', 'desc')
+        .onSnapshot(querySnapshot => {
+
+            sent_messages = []
+            
+            querySnapshot.docs.map(doc => (
+                {
+                    ...doc.data(),
+                    createdAt: doc.data().createdAt.toDate(),
+                }
+            ))
+            .forEach(doc => sent_messages.push(doc))
+            
+            all_messages = []
+            all_messages.push(...received_messages, ...sent_messages);
+            all_messages.sort((a, b) => b.createdAt - a.createdAt);
+            setMessages(all_messages);
+        })
+
+
     }, [])
 
     const onSend = useCallback((messages = []) => {
-        setMessages(previousMessages =>   GiftedChat.append(previousMessages, messages).sort((a, b) => b.createdAt - a.createdAt))
+
+        setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
     
-        db.collection('Users').doc(auth.currentUser?.email).collection('Chat').add(messages[0])
+        db.collection('Users').doc(auth.currentUser?.email).collection('Chat').add({...messages[0], sentTo: chatting_with})
         .then(() => {
             console.log('Message sent!')
         })            
@@ -37,7 +71,7 @@ const UserChats = () => {
 
         db.collection('Users').doc(chatting_with).collection('Chat').add(messages[0])
         .then(() => {
-            console.log('Message sent! to user2')
+            console.log('Message sent to', chatting_with)
         })
         .catch((error) => {
             console.error("Error adding document: ", error);
@@ -54,7 +88,7 @@ const UserChats = () => {
             _id: auth.currentUser?.email,
             }}
         />
-        
+
     );
 
 }
