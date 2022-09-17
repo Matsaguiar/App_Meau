@@ -21,12 +21,15 @@ const AdoptionList = () => {
 
   const loadData = () => {
     animals_collections
-      .where('owner', '!=', (auth.currentUser?.email), 'owner', '!=', db.collection('Users').doc(auth.currentUser?.email))
+      .where( 'adoption', '==', true)
+//      .where('owner', '!=', (auth.currentUser?.email))
       .get()
       .then((querySnapshot) => {
         const adoptionList = [];
         querySnapshot.forEach((doc) => {
-          adoptionList.push(doc.data())
+          if(doc.data().owner != auth.currentUser?.email){
+            adoptionList.push(doc)
+          }
         });
         setAnimals(adoptionList)
       }
@@ -51,9 +54,9 @@ const AdoptionList = () => {
 
         {/* <Card style={{ width: '18rem' }}>
           <Card.Body>
-            <Card.Title>{item.name}</Card.Title>
+            <Card.Title>{item.data().name}</Card.Title>
             <Card.Text>
-              Idade: {item.age}
+              Idade: {item.data().age}
             </Card.Text>
             <TouchableOpacity
               onPress={() => navigation.replace("AnimalPage", { animal: item})}
@@ -64,15 +67,15 @@ const AdoptionList = () => {
             </Card.Body>
           </Card> */}
         {
-          item.profilePicture ?
-            <Image source={{ uri: item.profilePicture }} style={{ width: 200, height: 250 }} />
+          item.data().profilePicture ?
+            <Image source={{ uri: item.data().profilePicture }} style={{ width: 200, height: 250 }} />
             : null
         }
 
-        <Text>Nome: {item.name}</Text>
-        <Text>Idade: {item.age}</Text>
+        <Text>Nome: {item.data().name}</Text>
+        <Text>Idade: {item.data().age}</Text>
         <TouchableOpacity
-          onPress={() => navigation.navigate("AnimalPage", { animal: item })}
+          onPress={() => navigation.navigate("AnimalPage", { animal: item.data(), idAnimal: item.id })}
           style={css.buttonGreen}
         >
           <Text style={css.buttonText}>Mais Detalhes</Text>
@@ -91,7 +94,7 @@ const AdoptionList = () => {
           <FlatList
             data={animals}
             renderItem={renderItem}
-            keyExtractor={(item) => item.name}
+            keyExtractor={(item) => item.id}
             ItemSeparatorComponent={ItemSeparatorView}
           />
 

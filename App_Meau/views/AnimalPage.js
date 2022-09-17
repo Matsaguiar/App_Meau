@@ -27,7 +27,7 @@ const AnimalPage = ({ route }) => {
         owner: route.params.animal.owner,
         animal: route.params.animal.name,
         newOwner: (auth.currentUser?.email),
-       // idAnimal: route.params.animal.id,
+        idAnimal: route.params.idAnimal,
       })
       .then(() => {
         Alert.alert(' Notificação enviada com sucesso!')
