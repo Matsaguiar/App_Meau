@@ -51,8 +51,8 @@ export default function AnimalRegister({ }) {
       });
 
 
-    animals_collections.doc()
-      .set({
+    animals_collections
+      .add({
         name: name,
         species: species,
         sex: sex,
@@ -66,35 +66,35 @@ export default function AnimalRegister({ }) {
         owner: auth.currentUser?.email,
         profilePicture: imageUrl,
       })
-      .then(() => {
+      .then((docRef) => {
         Alert.alert(name + ' cadastrado com sucesso!')
         navigation.replace("LoginScreen")
+        user_collection.doc(auth.currentUser?.email)
+          .collection("Meus_animais").add({
+            animal_ref: docRef.id,
+            name: name,
+            species: species,
+            sex: sex,
+            size: size,
+            age: age,
+            temperament: temperament,
+            health: health,
+            sick: sick,
+            history: history,
+            adoption: !adoption,
+            profilePicture: imageUrl,
+          })
+          .then(() => {
+            console.log("Animais atualizados com sucesso");
+          })
+          .catch((error) => {
+            console.error("Erro atualizando DB: ", error);
+          });
       })
       .catch((error) => {
         console.error("Erro escrita DB: ", error);
       });
 
-    user_collection.doc(auth.currentUser?.email)
-      .collection("Meus_animais").add({
-        animal_ref: animals_collections.doc(name),
-        name: name,
-        species: species,
-        sex: sex,
-        size: size,
-        age: age,
-        temperament: temperament,
-        health: health,
-        sick: sick,
-        history: history,
-        adoption: !adoption,
-        profilePicture: imageUrl,
-      })
-      .then(() => {
-        console.log("Animais atualizados com sucesso");
-      })
-      .catch((error) => {
-        console.error("Erro atualizando DB: ", error);
-      });
   }
 
   let openImagePickerAsync = async () => {

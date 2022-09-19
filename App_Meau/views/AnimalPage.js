@@ -14,9 +14,6 @@ import Button from 'react-bootstrap/Button';
 const AnimalPage = ({ route }) => {
 
   const navigation = useNavigation()
-
-  const user_collection = db.collection('Users');
-  const animals_collections = db.collection('Animals');
   const notification_colletions = db.collection('Notifications');
 
   const [image, setImage] = useState();
@@ -27,7 +24,8 @@ const AnimalPage = ({ route }) => {
         owner: route.params.animal.owner,
         animal: route.params.animal.name,
         newOwner: (auth.currentUser?.email),
-       // idAnimal: route.params.animal.id,
+        idAnimal: route.params.idAnimal,
+        notify: false,
       })
       .then(() => {
         Alert.alert(' Notificação enviada com sucesso!')
@@ -42,32 +40,47 @@ const AnimalPage = ({ route }) => {
 
   return (
     // <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={[css.container, css.bg]}>
-    <KeyboardAvoidingView style={[css.container]}>
+    <KeyboardAvoidingView style={[specificStyle.container]}>
+      <View style={[css.container]}>
+
+      </View>
       {
         route.params.animal.profilePicture ?
-          <Image source={{ uri: route.params.animal.profilePicture }} style={{ width: 200, height: 250 }} />
+          <Image source={{ uri: route.params.animal.profilePicture }} style={{ width: 360, height: 184, marginHorizontal: 30 }} />
           : null
       }
-      <Text >Nome: {route.params.animal.name}</Text>
-      <Text >Idade: {route.params.animal.age}</Text>
-      <Text>Sexo: {route.params.animal.sex}</Text>
-      <Text>Tamanho: {route.params.animal.size}</Text>
-      <Text>Idade: {route.params.animal.age}</Text>
-      <Text>Temperamento: {route.params.animal.temperament}</Text>
-      <Text>Saúde: {route.params.animal.health}</Text>
-      <Text>Doenças: {route.params.animal.sick}</Text>
-      <Text>Historia: {route.params.animal.history}</Text>
+      <View style={[css.container]}>
+
+      </View>
+      <Text style={[specificStyle.textYellow]}>Nome</Text>
+      <Text style={[specificStyle.text]}>{route.params.animal.name}</Text>
+      <Text style={[specificStyle.textYellow]}>Idade: </Text>
+      <Text style={[specificStyle.text]}>{route.params.animal.age}</Text>
+      <Text style={[specificStyle.textYellow]}>Sexo</Text>
+      <Text style={[specificStyle.text]}>{route.params.animal.sex}</Text>
+      <Text style={[specificStyle.textYellow]}>Tamanho</Text>
+      <Text style={[specificStyle.text]}>{route.params.animal.size}</Text>
+      <Text style={[specificStyle.textYellow]}>Idade</Text>
+      <Text style={[specificStyle.text]}>{route.params.animal.age}</Text>
+      <Text style={[specificStyle.textYellow]}>Temperamento</Text>
+      <Text style={[specificStyle.text]}>{route.params.animal.temperament}</Text>
+      <Text style={[specificStyle.textYellow]}>Saúde</Text>
+      <Text style={[specificStyle.text]}>{route.params.animal.health}</Text>
+      <Text style={[specificStyle.textYellow]}>Doenças</Text>
+      <Text style={[specificStyle.text]}>{route.params.animal.sick}</Text>
+      <Text style={[specificStyle.textYellow]}>Historia</Text>
+      <Text style={[specificStyle.text]}>{route.params.animal.history}</Text>
 
       <TouchableOpacity
         onPress={notification}
-        style={css.buttonGreen}
+        style={[css.buttonGreen, specificStyle.center]}
       >
         <Text style={css.buttonText}>Adotar</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         onPress={() => navigation.navigate("AdoptionList")}
-        style={css.buttonGreen}
+        style={[css.buttonGreen, specificStyle.center]}
       >
         <Text style={css.buttonText}>Voltar</Text>
       </TouchableOpacity>
@@ -83,6 +96,34 @@ const specificStyle = StyleSheet.create({
   title: {
     fontSize: 30,
     color: '#434343',
+  },
+  textYellow: {
+    marginHorizontal: 25,
+    color: '#f7a800',
+    fontFamily: 'Roboto',
+    fontSize: 14,
+    display: 'flex',
+    fontWeight: 'bold',
+    flex: 1,
+  },
+  text: {
+    marginHorizontal: 25,
+    color: '#757575',
+    fontFamily: 'Roboto',
+    fontSize: 14,
+    display: 'flex',
+    justifyContent: 'space-around',
+    flex: 1,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  center: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 80,
+    flex: 1
   },
 })
 
