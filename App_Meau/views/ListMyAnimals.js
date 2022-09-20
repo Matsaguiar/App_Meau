@@ -19,7 +19,7 @@ const ListMyAnimals = () => {
     .collection("Meus_animais").get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => { 
-          animalList.push(doc.data()) 
+          animalList.push(doc) 
         });
         setAnimals(animalList)
       });
@@ -35,16 +35,41 @@ const ListMyAnimals = () => {
     );
   };
 
+  const changeAdoption = (item) => {
+    const newAdoption = item.data().adoption?false:true
+    db.collection("Animals")
+    .doc(item.data().animal_ref)
+    .update({
+      adoption: newAdoption
+    })
+    db.collection("Users")
+    .doc(auth.currentUser?.email)
+    .collection("Meus_animais")
+    .doc(item.id)
+    .update({
+      adoption: newAdoption
+    })
+  }
+
   const renderItem = ({ item }) => {
+    const adoptionText = item.data().adoption?"adotável":"não adotável"
+    const adoptionButtonText = item.data().adoption?"Tornar inadotável":"Tornar adotável"
     return (
       <View>
           <Card style={{ width: '18rem' }}>
-            <Text style={specificStyle.listAnimal}>{item.name}</Text>
+            <Text style={specificStyle.listAnimal}>{item.data().name}</Text>
+            <Text style={specificStyle.listAnimal}>{adoptionText}</Text>
             {
-              item.profilePicture ?
-                <Image source={{ uri: item.profilePicture }} style={[{ width: 344, height: 183 }]} />
+              item.data().profilePicture ?
+                <Image source={{ uri: item.data().profilePicture }} style={[{ width: 344, height: 183 }]} />
                 : null
             }
+            <TouchableOpacity
+              onPress={() => changeAdoption(item)}
+              style={css.buttonGreen}
+            >
+              <Text style={css.buttonText}>{adoptionButtonText}</Text>
+            </TouchableOpacity>
           </Card>
       </View >
     );

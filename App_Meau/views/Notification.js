@@ -116,7 +116,7 @@ const Notification = () => {
       }).catch((e) => {
         console.error('Error: ' + e);
       });
-    Alert.alert('Pedido de adoção recusado!')
+//    Alert.alert('Pedido de adoção recusado!')
     console.log('Pedido de adoção recusado!')
   }
 
@@ -133,6 +133,7 @@ const Notification = () => {
               sex: doc.data().sex,
               size: doc.data().size,
               age: doc.data().age,
+              animal_ref: doc.data().animal_ref,
               temperament: doc.data().temperament,
               health: doc.data().health,
               sick: doc.data().sick,
@@ -156,7 +157,7 @@ const Notification = () => {
           db.collection("Notifications").doc(doc.id).delete()
         })
       })
-    Alert.alert('Adoção concluída com sucesso!')
+//    Alert.alert('Adoção concluída com sucesso!')
     console.log('Adoção concluída com sucesso!')
   }
 
