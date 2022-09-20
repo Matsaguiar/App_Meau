@@ -1,13 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Text, View, TouchableOpacity, Image, KeyboardAvoidingView } from 'react-native';
+import { Text, View, TouchableOpacity, Image, KeyboardAvoidingView, StyleSheet } from 'react-native';
 import { css } from '../assets/css/Css';
 
 const Home = () => {
   const navigation = useNavigation()
   return (
     //<KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={[css.container, css.bg]}>
-    <KeyboardAvoidingView style={css.container}>
+    <KeyboardAvoidingView style={[specificStyle.container]}>
       <View style={css.loginLogomarca}>
         <Image source={require('../assets/img/logo.png')} />
       </View>
@@ -31,5 +31,13 @@ const Home = () => {
     </KeyboardAvoidingView>
   )
 }
+const specificStyle = StyleSheet.create({
+  container: {
+    flex:1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+})
 
 export default Home

@@ -73,12 +73,12 @@ const AdoptionList = () => {
             renderItem={renderItem}
           />
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => navigation.navigate("LoginScreen")}
             style={[css.buttonGreen, specificStyle.center]}
           >
             <Text style={[css.buttonText]}>Voltar</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
         </View>
       </ScrollView>

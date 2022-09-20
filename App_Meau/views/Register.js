@@ -39,7 +39,7 @@ export default function Register({ }) {
       if (user) {
         users_collection.doc(user.email).get().then((docSnapshot) => {
           if (docSnapshot.exits) {
-            navigation.navigate("LoginScreen")
+            navigation.navigate("AdoptionList")
           }
         })
       }
@@ -62,7 +62,7 @@ export default function Register({ }) {
       })
       .then(() => {
         console.log(fullName, " - phone:", phone, " - Cadastrado com sucesso");
-        navigation.replace("LoginScreen")
+        navigation.navigate("AdoptionList")
       })
       .catch((error) => {
         console.error("Erro escrita DB: ", error);
@@ -159,8 +159,10 @@ export default function Register({ }) {
       behavior={Platform.OS == "ios" ? "padding" : "height"}
       style={[css.container, specificStyle.specificConteiner]}
     >
-      <ScrollView style={{ width: "95%" }}>
-
+      <View>
+        <Text style={specificStyle.header}>  Cadastro Pessoal</Text>
+      </View>
+      <ScrollView style={{ width: "100%" }}>
         <View style={css.loginLogomarca}>
           <Image source={require('../assets/img/logo.png')} />
         </View>
@@ -270,7 +272,7 @@ export default function Register({ }) {
         <View style={css.buttonContainer_Scroll}>
           <TouchableOpacity
             onPress={loginSignUp}
-            style={[css.buttonGreen]}
+            style={[specificStyle.buttonGreen]}
           >
             <Text style={css.buttonText}>Fazer Cadastro</Text>
           </TouchableOpacity>
@@ -284,5 +286,25 @@ const specificStyle = StyleSheet.create({
   specificConteiner: {
     backgroundColor: "#fff",
     padding: 10
-  }
+  },
+  header: {
+    backgroundColor: '#cfe9e5',
+    width: 420,
+    height: 60,
+    marginTop: 20,
+    paddingTop: 12,
+    fontWeight: 'bold',
+    fontFamily: 'Roboto',
+    color: '#434343',
+    fontSize: 24,
+  },
+  buttonGreen: {
+    marginTop: 35,
+    marginVertical: 40,
+    backgroundColor: '#88c9bf',
+    width: '60%',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
 })

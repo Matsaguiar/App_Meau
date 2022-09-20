@@ -32,7 +32,7 @@ export default function AnimalRegister({ }) {
   const navigation = useNavigation()
 
   const goBack = () => {
-    navigation.replace("LoginScreen")
+    navigation.navigate("AdoptionList")
   }
 
   const handleRegister = async () => {
@@ -68,7 +68,7 @@ export default function AnimalRegister({ }) {
       })
       .then((docRef) => {
         Alert.alert(name + ' cadastrado com sucesso!')
-        navigation.replace("LoginScreen")
+        navigation.navigate("AdoptionList")
         user_collection.doc(auth.currentUser?.email)
           .collection("Meus_animais").add({
             animal_ref: docRef.id,

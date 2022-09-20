@@ -30,7 +30,7 @@ const AnimalPage = ({ route }) => {
       .then(() => {
         Alert.alert(' Notificação enviada com sucesso!')
         console.log(' Notificação enviada com sucesso!')
-        navigation.replace("LoginScreen")
+        navigation.navigate("AdoptionList")
       })
       .catch((error) => {
         console.error("Erro escrita DB: ", error);
@@ -49,9 +49,7 @@ const AnimalPage = ({ route }) => {
           <Image source={{ uri: route.params.animal.profilePicture }} style={{ width: 360, height: 184, marginHorizontal: 30 }} />
           : null
       }
-      <View style={[css.container]}>
 
-      </View>
       <Text style={[specificStyle.textYellow]}>Nome</Text>
       <Text style={[specificStyle.text]}>{route.params.animal.name}</Text>
       <Text style={[specificStyle.textYellow]}>Idade: </Text>
@@ -90,6 +88,7 @@ const AnimalPage = ({ route }) => {
 
 const specificStyle = StyleSheet.create({
   specificConteiner: {
+    flex:1,
     backgroundColor: "#fff",
     padding: 10
   },
@@ -116,6 +115,7 @@ const specificStyle = StyleSheet.create({
     flex: 1,
   },
   container: {
+    marginTop: 10,
     flex: 1,
     backgroundColor: '#fff',
   },

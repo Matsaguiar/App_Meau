@@ -16,7 +16,7 @@ const LoginScreen = () => {
   const [userProfilePicture, setUserProfilePicture] = useState('')
 
   const navigation = useNavigation()
-  
+
   const func = async () => {
 
     const user = auth.currentUser?.email;
@@ -40,9 +40,32 @@ const LoginScreen = () => {
     auth
       .signOut()
       .then(() => {
-        navigation.replace("Home")
+        navigation.navigate("Home")
       })
       .catch(error => alert(error.message))
+  }
+
+  const openCamera = async () => {
+    // Ask the user for the permission to access the camera
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this appp to access your camera!");
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync();
+
+    // Explore the result
+    console.log(result);
+
+    if (!result.cancelled) {
+      console.log(result.uri);
+
+      setImage(result.uri);
+      setImageUuid(uuid.v4());
+    }
+
   }
 
   let openImagePickerAsync = async () => {
@@ -147,6 +170,13 @@ const LoginScreen = () => {
               </TouchableOpacity>
               : null
           }
+
+          <TouchableOpacity
+            onPress={openCamera}
+            style={css.buttonGreen}
+          >
+            <Text style={css.buttonText}>Foto Usuário usando Câmera</Text>
+          </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => navigation.navigate('ListMyAnimals')}

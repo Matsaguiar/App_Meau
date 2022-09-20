@@ -44,6 +44,39 @@ const UserData = () => {
     loadData();
   }, []);
 
+  const hendleSignOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        console.log('exit');
+        navigation.navigate("Home")
+      })
+      .catch(error => alert(error.message))
+  }
+
+  const openCamera = async () => {
+    // Ask the user for the permission to access the camera
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this appp to access your camera!");
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync();
+
+    // Explore the result
+    console.log(result);
+
+    if (!result.cancelled) {
+      console.log(result.uri);
+
+      setImage(result.uri);
+      setImageUuid(uuid.v4());
+    }
+
+  }
+
   let openImagePickerAsync = async () => {
 
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -137,6 +170,7 @@ const UserData = () => {
 
 
           <Text>Nome: {user.fullName}</Text>
+          <Text>Email: {auth.currentUser?.email}</Text>
           <Text>Idade: {user.age}</Text>
           <Text>Endereço: {user.address}</Text>
           <Text>Estado: {user.state}</Text>
@@ -145,15 +179,29 @@ const UserData = () => {
             onPress={openImagePickerAsync}
             style={css.buttonGreen}
           >
-            <Text style={css.buttonText}>Alterar foto de perfil</Text>
+            <Text style={css.buttonText}>Alterar foto(Galeria)</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
+            onPress={openCamera}
+            style={css.buttonGreen}
+          >
+            <Text style={css.buttonText}>Alterar foto(Câmera)</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={hendleSignOut}
+            style={css.buttonGreen}
+          >
+            <Text style={css.buttonText}>Sair da conta</Text>
+          </TouchableOpacity>
+
+          {/* <TouchableOpacity
             onPress={() => navigation.navigate("LoginScreen")}
             style={css.buttonGreen}
           >
             <Text style={css.buttonText}>Voltar</Text>
-          </TouchableOpacity>
+        </TouchableOpacity> */}
         </View>
 
       </ScrollView>
