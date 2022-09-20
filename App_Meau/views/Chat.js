@@ -29,6 +29,20 @@ const UserChats = ({ route }) => {
         console.error("Error inserting chat with: ", chatting_with);
         console.log(error);
       });
+      
+      db.collection('Users').doc(chatting_with).collection('Chats').doc(auth.currentUser?.email).set({
+        name: auth.currentUser?.email,
+      })
+      .then(() => {
+        console.log("Chat with " + auth.currentUser?.email + " created!");
+        console.log("Document successfully written!");
+      })
+      .catch((error) => {
+        console.error("Error inserting chat with: ", auth.currentUser?.email);
+        console.log(error);
+      });
+
+
     }
 
     db.collection('Users').doc(auth.currentUser?.email).collection('Messages')
