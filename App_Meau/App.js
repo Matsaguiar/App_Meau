@@ -14,6 +14,7 @@ import AnimalPage from './views/AnimalPage';
 import ImageUpload from './views/ImageUpload';
 import Notification from './views/Notification';
 import UserChats from './views/UserChats';
+import Chat from './views/Chat';
 
 export default function App() {
 
@@ -119,6 +120,17 @@ export default function App() {
         <Stack.Screen name="UserChats" component={UserChats}
           options={{
             title: 'Suas Conversas',
+            headerStyle: {
+              backgroundColor: '#cfe9e5'
+            },
+            headerTintColor: '#434343',
+            headerShown: true
+          }}
+        />
+
+        <Stack.Screen name="Chat" component={Chat}
+          options={{
+            title: 'Conversa',
             headerStyle: {
               backgroundColor: '#cfe9e5'
             },
