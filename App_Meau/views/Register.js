@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 import { css } from '../assets/css/Css';
 import { auth, db } from '../firebase';
 import { useNavigation } from '@react-navigation/native';
-import { collection } from '@react-native-firebase/firestore'
+// import { collection } from '@react-native-firebase/firestore'
 import { CheckBox } from 'react-native';
 
 export default function Register({ }) {

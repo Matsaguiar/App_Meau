@@ -17,6 +17,8 @@ import ListMyAnimals from './views/ListMyAnimals';
 import AdoptionList from './views/AdoptionList';
 import AnimalPage from './views/AnimalPage';
 import Notification from './views/Notification';
+import UserChats from './views/UserChats';
+import Chat from './views/Chat';
 import UserData from './views/UserData';
 import {LogBox} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
@@ -145,6 +147,30 @@ export default function App() {
             headerShown: true
           }}
         />
+
+        <Drawer.Screen name="UserChats" component={UserChats}
+          options={{
+            title: 'Suas Conversas',
+            headerStyle: {
+              backgroundColor: '#cfe9e5'
+            },
+            headerTintColor: '#434343',
+            headerShown: true
+          }}
+        />
+
+        <Drawer.Screen name="Chat" component={Chat}
+          options={{
+            title: 'Conversa',
+            headerStyle: {
+              backgroundColor: '#cfe9e5'
+            },
+            headerTintColor: '#434343',
+            headerShown: true,
+            hidden: true
+          }}
+        />
+
       </Drawer.Navigator>
     </NavigationContainer>
   );
