@@ -42,7 +42,7 @@ const UserChats = () => {
 
       <TouchableOpacity
       
-        onPress={() => navigation.navigate("Chat", { chat: item })}
+        onPress={() => navigation.navigate("Chat", { person: item })}
       >
         <Text>{item.name}</Text>
       </TouchableOpacity>

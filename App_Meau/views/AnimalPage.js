@@ -68,6 +68,8 @@ const AnimalPage = ({ route }) => {
       <Text style={[specificStyle.text]}>{route.params.animal.sick}</Text>
       <Text style={[specificStyle.textYellow]}>Historia</Text>
       <Text style={[specificStyle.text]}>{route.params.animal.history}</Text>
+      <Text style={[specificStyle.textYellow]}>Dono</Text>
+      <Text style={[specificStyle.text]}>{route.params.animal.owner}</Text>
 
       <TouchableOpacity
         onPress={notification}
@@ -82,6 +84,15 @@ const AnimalPage = ({ route }) => {
       >
         <Text style={css.buttonText}>Voltar</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Chat", {person : {name: route.params.animal.owner}})}
+        style={[css.buttonGreen, specificStyle.center]}
+      >
+        <Text style={css.buttonText}>Conversar com Dono</Text>
+      </TouchableOpacity>
+
+
     </KeyboardAvoidingView>
   )
 }

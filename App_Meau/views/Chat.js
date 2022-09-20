@@ -5,16 +5,31 @@ import { auth, db, storage } from '../firebase'
 
 const UserChats = ({ route }) => {
 
-  const chatting_with = route.params.chat.name;
+  const chatting_with = route.params.person.name;
 
   const [messages, setMessages] = useState([]);
 
   const Chat = () => {
-    // console.log("Conversando com: " + chatting_with);
+    console.log("Conversando com: " + chatting_with);
 
     let all_messages = [];
     let received_messages = [];
     let sent_messages = [];
+
+    let check = db.collection('Users').doc(auth.currentUser?.email).collection('Chats').doc(chatting_with).get()
+    if(!check.exists){
+      db.collection('Users').doc(auth.currentUser?.email).collection('Chats').doc(chatting_with).set({
+        name: chatting_with,
+      })
+      .then(() => {
+        console.log("Chat with " + chatting_with + " created!");
+        console.log("Document successfully written!");
+      })
+      .catch((error) => {
+        console.error("Error inserting chat with: ", chatting_with);
+        console.log(error);
+      });
+    }
 
     db.collection('Users').doc(auth.currentUser?.email).collection('Messages')
       .where('user._id', '==', chatting_with)
