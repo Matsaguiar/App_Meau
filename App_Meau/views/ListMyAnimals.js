@@ -8,29 +8,21 @@ import { useState, useEffect } from 'react'
 import { FlatList } from 'react-native'
 import Card from '../components/AnimalCard';
 
-const AdoptionList = () => {
-
+const ListMyAnimals = () => {
   const navigation = useNavigation()
-  const animals_collections = db.collection('Animals');
-
-  const [image, setImage] = useState();
-  const [animals, setAnimals] = useState([]);
+  const [animals, setAnimals] = useState([])
 
   const loadData = () => {
-    animals_collections
-      .where('adoption', '==', true)
-      //      .where('owner', '!=', (auth.currentUser?.email))
-      .get()
+    const animalList = [];
+    db.collection("Users")
+    .doc(auth.currentUser?.email)
+    .collection("Meus_animais").get()
       .then((querySnapshot) => {
-        const adoptionList = [];
-        querySnapshot.forEach((doc) => {
-          if (doc.data().owner != auth.currentUser?.email) {
-            adoptionList.push(doc)
-          }
+        querySnapshot.forEach((doc) => { 
+          animalList.push(doc.data()) 
         });
-        setAnimals(adoptionList)
-      }
-      );
+        setAnimals(animalList)
+      });
   }
 
   useEffect(loadData, []);
@@ -38,7 +30,7 @@ const AdoptionList = () => {
   const ItemSeparatorView = () => {
     return (
       <View
-        style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8', marginTop: 10, marginBottom: 10 }}
+        style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8' }}
       />
     );
   };
@@ -46,17 +38,14 @@ const AdoptionList = () => {
   const renderItem = ({ item }) => {
     return (
       <View>
-        <TouchableOpacity onPress={() => navigation.navigate("AnimalPage", { animal: item.data(), idAnimal: item.id })}>
           <Card style={{ width: '18rem' }}>
-            <Text style={specificStyle.listAnimal}>{item.data().name}</Text>
+            <Text style={specificStyle.listAnimal}>{item.name}</Text>
             {
-              item.data().profilePicture ?
-                <Image source={{ uri: item.data().profilePicture }} style={[{ width: 344, height: 183 }]} />
+              item.profilePicture ?
+                <Image source={{ uri: item.profilePicture }} style={[{ width: 344, height: 183 }]} />
                 : null
             }
-            <Text style={specificStyle.listAnimal}>{item.data().sex}                         {item.data().age}                             {item.data().size}</Text>
           </Card>
-        </TouchableOpacity>
       </View >
     );
   };
@@ -85,6 +74,7 @@ const AdoptionList = () => {
     </KeyboardAvoidingView>
   )
 }
+
 const specificStyle = StyleSheet.create({
   specificConteiner: {
     backgroundColor: "#fff",
@@ -114,4 +104,4 @@ const specificStyle = StyleSheet.create({
   },
 })
 
-export default AdoptionList
+export default ListMyAnimals

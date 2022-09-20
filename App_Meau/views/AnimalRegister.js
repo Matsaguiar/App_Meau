@@ -1,5 +1,5 @@
 import { KeyboardAvoidingView, Platform, TextInput, Image, Alert, TouchableOpacity, Text, View, ScrollView } from 'react-native';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet } from "react-native";
 import { useState } from 'react'
 import { css } from '../assets/css/Css'
@@ -31,8 +31,12 @@ export default function AnimalRegister({ }) {
   const [selected, setSelected] = useState(0);
   const navigation = useNavigation()
 
+  useEffect(() => {
+
+  }, [])
+
   const goBack = () => {
-    navigation.replace("LoginScreen")
+    navigation.navigate("AdoptionList")
   }
 
   const handleRegister = async () => {
@@ -51,8 +55,8 @@ export default function AnimalRegister({ }) {
       });
 
 
-    animals_collections.doc()
-      .set({
+    animals_collections
+      .add({
         name: name,
         species: species,
         sex: sex,
@@ -66,35 +70,36 @@ export default function AnimalRegister({ }) {
         owner: auth.currentUser?.email,
         profilePicture: imageUrl,
       })
-      .then(() => {
+      .then((docRef) => {
         Alert.alert(name + ' cadastrado com sucesso!')
-        navigation.replace("LoginScreen")
+        navigation.navigate("AdoptionList")
+        user_collection.doc(auth.currentUser?.email)
+          .collection("Meus_animais").add({
+            animal_ref: docRef.id,
+            name: name,
+            species: species,
+            sex: sex,
+            size: size,
+            age: age,
+            temperament: temperament,
+            health: health,
+            sick: sick,
+            history: history,
+            adoption: !adoption,
+            profilePicture: imageUrl,
+          })
+          .then(() => {
+            console.log("Animais atualizados com sucesso");
+          })
+          .catch((error) => {
+            console.error("Erro atualizando DB: ", error);
+          });
+          navigation.navigate("AdoptionList")
       })
       .catch((error) => {
         console.error("Erro escrita DB: ", error);
       });
 
-    user_collection.doc(auth.currentUser?.email)
-      .collection("Meus_animais").add({
-        animal_ref: animals_collections.doc(name),
-        name: name,
-        species: species,
-        sex: sex,
-        size: size,
-        age: age,
-        temperament: temperament,
-        health: health,
-        sick: sick,
-        history: history,
-        adoption: !adoption,
-        profilePicture: imageUrl,
-      })
-      .then(() => {
-        console.log("Animais atualizados com sucesso");
-      })
-      .catch((error) => {
-        console.error("Erro atualizando DB: ", error);
-      });
   }
 
   let openImagePickerAsync = async () => {

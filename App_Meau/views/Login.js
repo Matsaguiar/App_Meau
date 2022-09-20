@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, Platform, TextInput, Image, TouchableOpacity, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, TextInput, Image, TouchableOpacity, Text, View, StyleSheet } from 'react-native';
 import { useState, useEffect } from 'react';
 import { css } from '../assets/css/Css';
 import { auth, db } from '../firebase';
@@ -19,7 +19,7 @@ const Login = () => {
       if (user) {
         users_collection.doc(user.email).get().then((docSnapshot) => {
           if (docSnapshot.exists) {
-            navigation.replace("LoginScreen")
+            navigation.navigate("AdoptionList")
           }
           else {
             // navigation.replace("Register") 
@@ -54,7 +54,7 @@ const Login = () => {
         .then(userCredentials => {
           const user = userCredentials.user;
           console.log('Login com: ', user.email);
-          navigation.replace("LoginScreen")
+          navigation.navigate("AdoptionList")
         })
         .catch(error => alert(error.message))
     } else {
@@ -66,7 +66,11 @@ const Login = () => {
     <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={[css.container, css.bg]}>
       {/* <KeyboardAvoidingView style={[css.container]}> */}
 
-      <View style={css.loginLogomarca}>
+      <View>
+        <Text style={specificStyle.header}>  Login</Text>
+      </View>
+
+      <View style={specificStyle.loginLogomarca}>
         <Image source={require('../assets/img/logo.png')} />
       </View>
       <View style={css.registration}></View>
@@ -118,5 +122,28 @@ const Login = () => {
     </KeyboardAvoidingView>
   )
 }
+const specificStyle = StyleSheet.create({
+  specificConteiner: {
+    backgroundColor: "#fff",
+    padding: 10
+  },
+  header: {
+    backgroundColor: '#cfe9e5',
+    width: 420,
+    height: 60,
+    marginTop: 20,
+    paddingTop: 12,
+    fontWeight: 'bold',
+    fontFamily: 'Roboto',
+    color: '#434343',
+    fontSize: 24,
+  },
+  loginLogomarca: {
+    marginTop: 120,
+    marginBottom: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+})
 
 export default Login

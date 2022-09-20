@@ -1,5 +1,5 @@
-import { KeyboardAvoidingView, Platform, Image, TouchableOpacity, Text, View, ScrollView } from 'react-native';
-import React, { useEffect, useState } from 'react'
+import { KeyboardAvoidingView, Platform, TextInput, Image, Alert, TouchableOpacity, Text, View, ScrollView } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react'
 import { css } from '../assets/css/Css'
 import { StyleSheet } from "react-native";
 import { auth, db, storage } from '../firebase'
@@ -7,39 +7,48 @@ import { useNavigation } from '@react-navigation/native'
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
 
-
-const LoginScreen = () => {
-
+const UserData = () => {
   const [image, setImage] = useState('')
   const [imageUuid, setImageUuid] = useState('');
-
   const [userProfilePicture, setUserProfilePicture] = useState('')
-
+  const [user, setUser] = useState('')
   const navigation = useNavigation()
 
-  const func = async () => {
+  const loadData = () => {
+    console.log("auth: "+auth.currentUser?.email)
+    db.collection('Users').doc(auth.currentUser?.email)
+      .get()
+      .then((querySnapshot) => {
+        console.log("queryyyyy: "+querySnapshot.data())
+        setUser(querySnapshot.data())
+      }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+  }
 
+  useEffect(async () => {
     const user = auth.currentUser?.email;
-
+    
     let profilePicture;
-
-    await db.collection('Users').doc(user).get().then(doc => {
+    
+    await 
+      db.collection('Users')
+        .doc(user).get()
+        .then(doc => {
       profilePicture = doc.data().profilePicture;
       console.log(profilePicture)
       setUserProfilePicture(profilePicture)
     }).catch(error => {
       console.log(error)
     });
-  };
-
-  useEffect(() => {
-    func();
-  });
+    loadData();
+  }, []);
 
   const hendleSignOut = () => {
     auth
       .signOut()
       .then(() => {
+        console.log('exit');
         navigation.navigate("Home")
       })
       .catch(error => alert(error.message))
@@ -109,7 +118,7 @@ const LoginScreen = () => {
 
     deleteOldImage();
 
-    db.collection('Users').doc(auth.currentUser?.email).set({
+    db.collection('Users').doc(auth.currentUser?.email).update({
       profilePicture: newImageUrl,
     })
       .then(() => {
@@ -141,20 +150,8 @@ const LoginScreen = () => {
               <Image source={{ uri: userProfilePicture }} style={{ width: 150, height: 200, borderRadius: 200, borderWidth: 5, borderColor: '#88c9bf', marginBottom: 10 }} />
               : null
           }
-
-          <Text>Bem vindo: {auth.currentUser?.email}</Text>
         </View>
-
-
         <View style={css.loginLogomarca}>
-
-          <TouchableOpacity
-            onPress={openImagePickerAsync}
-            style={css.buttonGreen}
-          >
-            <Text style={css.buttonText}>Foto Usuário</Text>
-          </TouchableOpacity>
-
           {
             image !== '' ? <Image source={{ uri: image }} style={{ width: 150, height: 200, borderRadius: 200, borderWidth: 5, borderColor: '#88c9bf', marginBottom: 10 }} /> : null
           }
@@ -171,58 +168,40 @@ const LoginScreen = () => {
               : null
           }
 
+
+          <Text>Nome: {user.fullName}</Text>
+          <Text>Email: {auth.currentUser?.email}</Text>
+          <Text>Idade: {user.age}</Text>
+          <Text>Endereço: {user.address}</Text>
+          <Text>Estado: {user.state}</Text>
+
+          <TouchableOpacity
+            onPress={openImagePickerAsync}
+            style={css.buttonGreen}
+          >
+            <Text style={css.buttonText}>Alterar foto(Galeria)</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity
             onPress={openCamera}
             style={css.buttonGreen}
           >
-            <Text style={css.buttonText}>Foto Usuário usando Câmera</Text>
+            <Text style={css.buttonText}>Alterar foto(Câmera)</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ListMyAnimals')}
-            style={css.buttonGreen}
-          >
-            <Text style={css.buttonText}>Meus Animais</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate('AnimalRegister')}
-            style={css.buttonGreen}
-          >
-            <Text style={css.buttonText}>Cadastrar Animal</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate("AdoptionList")}
-            style={css.buttonGreen}
-          >
-            <Text style={css.buttonText}>Lista de Adoção</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Notification")}
-            style={css.buttonGreen}
-          >
-            <Text style={css.buttonText}>Notificação</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate("UserChats")}
-            style={css.buttonGreen}
-          >
-            <Text style={css.buttonText}>Minhas Conversas</Text>
-          </TouchableOpacity>
-
-<<<<<<< HEAD
-=======
           <TouchableOpacity
             onPress={hendleSignOut}
             style={css.buttonGreen}
           >
-            <Text style={css.buttonText}>Sair</Text>
+            <Text style={css.buttonText}>Sair da conta</Text>
           </TouchableOpacity>
 
->>>>>>> notificacao
+          {/* <TouchableOpacity
+            onPress={() => navigation.navigate("LoginScreen")}
+            style={css.buttonGreen}
+          >
+            <Text style={css.buttonText}>Voltar</Text>
+        </TouchableOpacity> */}
         </View>
 
       </ScrollView>
@@ -240,4 +219,4 @@ const specificStyle = StyleSheet.create({
   },
 })
 
-export default LoginScreen
+export default UserData

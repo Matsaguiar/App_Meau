@@ -1,6 +1,17 @@
 import { StyleSheet } from "react-native";
 
 const css = StyleSheet.create({
+  header:{
+    backgroundColor: '#cfe9e5',
+    width: 420,
+    height: 60,
+    marginTop:20,
+    paddingTop: 12,
+    fontWeight:'bold',
+    fontFamily: 'Roboto',
+    color:'#434343',
+    fontSize: 24,
+  },
     container_home: {
       flex: 0,
       backgroundColor: '#fff',
@@ -9,7 +20,6 @@ const css = StyleSheet.create({
     },
 
     container: {
-      flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
