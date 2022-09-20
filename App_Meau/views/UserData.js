@@ -118,7 +118,7 @@ const UserData = () => {
 
     deleteOldImage();
 
-    db.collection('Users').doc(auth.currentUser?.email).set({
+    db.collection('Users').doc(auth.currentUser?.email).update({
       profilePicture: newImageUrl,
     })
       .then(() => {

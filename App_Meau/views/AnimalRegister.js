@@ -1,5 +1,5 @@
 import { KeyboardAvoidingView, Platform, TextInput, Image, Alert, TouchableOpacity, Text, View, ScrollView } from 'react-native';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet } from "react-native";
 import { useState } from 'react'
 import { css } from '../assets/css/Css'
@@ -30,6 +30,10 @@ export default function AnimalRegister({ }) {
 
   const [selected, setSelected] = useState(0);
   const navigation = useNavigation()
+
+  useEffect(() => {
+
+  }, [])
 
   const goBack = () => {
     navigation.navigate("AdoptionList")
@@ -90,6 +94,7 @@ export default function AnimalRegister({ }) {
           .catch((error) => {
             console.error("Erro atualizando DB: ", error);
           });
+          navigation.navigate("AdoptionList")
       })
       .catch((error) => {
         console.error("Erro escrita DB: ", error);

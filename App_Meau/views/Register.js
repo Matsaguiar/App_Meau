@@ -50,7 +50,7 @@ export default function Register({ }) {
 
   const registerSingUp = () => {
 
-    users_collection.doc(email)
+    users_collection.doc(email.toLowerCase())
       .set({
         fullName: fullName,
         age: parseInt(age),
