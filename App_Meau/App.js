@@ -166,7 +166,8 @@ export default function App() {
               backgroundColor: '#cfe9e5'
             },
             headerTintColor: '#434343',
-            headerShown: true
+            headerShown: true,
+            hidden: true
           }}
         />
 

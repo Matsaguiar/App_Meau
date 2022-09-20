@@ -31,8 +31,6 @@ const UserChats = ({ route }) => {
         ))
         .forEach(doc => received_messages.push(doc))
 
-        
-
         all_messages = [...received_messages, ...sent_messages];
         all_messages.sort((a, b) => b.createdAt - a.createdAt);
         setMessages(all_messages);

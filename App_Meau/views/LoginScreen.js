@@ -213,8 +213,6 @@ const LoginScreen = () => {
             <Text style={css.buttonText}>Minhas Conversas</Text>
           </TouchableOpacity>
 
-<<<<<<< HEAD
-=======
           <TouchableOpacity
             onPress={hendleSignOut}
             style={css.buttonGreen}
@@ -222,7 +220,6 @@ const LoginScreen = () => {
             <Text style={css.buttonText}>Sair</Text>
           </TouchableOpacity>
 
->>>>>>> notificacao
         </View>
 
       </ScrollView>
