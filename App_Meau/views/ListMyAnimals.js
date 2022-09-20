@@ -49,6 +49,7 @@ const ListMyAnimals = () => {
     .update({
       adoption: newAdoption
     })
+    loadData()
   }
 
   const renderItem = ({ item }) => {

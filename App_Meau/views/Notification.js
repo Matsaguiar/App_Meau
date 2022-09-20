@@ -117,6 +117,7 @@ const Notification = () => {
         console.error('Error: ' + e);
       });
 //    Alert.alert('Pedido de adoção recusado!')
+    getNotifications()
     console.log('Pedido de adoção recusado!')
   }
 
@@ -158,6 +159,7 @@ const Notification = () => {
         })
       })
 //    Alert.alert('Adoção concluída com sucesso!')
+    getNotifications()
     console.log('Adoção concluída com sucesso!')
   }
 
