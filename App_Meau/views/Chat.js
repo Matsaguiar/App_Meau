@@ -10,7 +10,7 @@ const UserChats = ({ route }) => {
   const [messages, setMessages] = useState([]);
 
   const Chat = () => {
-    console.log("Conversando com: " + chatting_with);
+    // console.log("Conversando com: " + chatting_with);
 
     let all_messages = [];
     let received_messages = [];
@@ -21,7 +21,7 @@ const UserChats = ({ route }) => {
       // .orderBy('createdAt', 'desc')
       .onSnapshot(querySnapshot => {
 
-        received_messages = []
+        received_messages = [];
 
         querySnapshot.docs.map(doc => (
           {
@@ -29,13 +29,22 @@ const UserChats = ({ route }) => {
             createdAt: doc.data().createdAt.toDate(),
           }
         ))
-          .forEach(doc => received_messages.push(doc))
+        .forEach(doc => received_messages.push(doc))
+
+        
+
+        all_messages = [...received_messages, ...sent_messages];
+        all_messages.sort((a, b) => b.createdAt - a.createdAt);
+        setMessages(all_messages);
+        console.log("ON SNAPSHOT RECEIVED MESSAGES")
       })
 
     db.collection('Users').doc(auth.currentUser?.email).collection('Messages')
       .where('sentTo', '==', chatting_with)
       // // .orderBy('createdAt', 'desc')
       .onSnapshot(querySnapshot => {
+
+        console.log("ON SNAPSHOT SENT MESSAGES")
 
         sent_messages = []
 
@@ -52,8 +61,6 @@ const UserChats = ({ route }) => {
         all_messages.sort((a, b) => b.createdAt - a.createdAt);
         setMessages(all_messages);
       })
-      // setTimeout(Chat, 9000);
-
   }
 
   useEffect(Chat, []);
