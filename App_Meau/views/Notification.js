@@ -1,4 +1,4 @@
-import { Text, View, ScrollView, Button, TouchableOpacity } from 'react-native'
+import { Text, View, ScrollView, Alert, TouchableOpacity, Platform, RefreshControl } from 'react-native'
 import * as Device from 'expo-device';
 import React from 'react'
 import { useState, useEffect, useRef } from 'react'
@@ -26,9 +26,21 @@ const Notification = () => {
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+  const [refresh, setRefresh] = useState(false)
+
+  const pullMe = () => {
+    setRefresh(true)
+    getNotifications();
+    setTimeout(() => {
+      setRefresh(false)
+    }, 3000)
+  }
 
   const getNotifications = () => {
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+    if (Platform.OS === 'android') {
+      registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+    }
+
     console.log('Searching for news notifications');
     const email = (auth.currentUser?.email)
     //console.log(email)
@@ -73,16 +85,18 @@ const Notification = () => {
   }
 
   useEffect(() => {
-    schedulePushNotification();
+    if (Platform.OS === 'android') {
+      schedulePushNotification();
 
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      setNotification(notification);
-    });
+      registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+      notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+        setNotification(notification);
+      });
 
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
-    });
+      responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+        console.log(response);
+      });
+    }
 
     getNotifications();
     return () => {
@@ -158,11 +172,19 @@ const Notification = () => {
       })
     Alert.alert('Adoção concluída com sucesso!')
     console.log('Adoção concluída com sucesso!')
+    navigation.navigate("AdoptionList")
   }
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView>
+      <ScrollView 
+        refreshControl={
+          <RefreshControl
+            refreshing={refresh}
+            onRefresh={()=>pullMe()}
+          />
+        }  
+      >
         {listNotifications.map(({ animal, newOwner, idAnimal }) => (
           <View style={[css.container]}>
             <Text>{newOwner} está pedindo para adotar o {animal}</Text>

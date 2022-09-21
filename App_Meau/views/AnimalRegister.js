@@ -9,7 +9,7 @@ import Radio from '../components/Radio'
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
 
-export default function AnimalRegister({ }) {
+export default function AnimalRegister() {
 
   const animals_collections = db.collection('Animals');
   const user_collection = db.collection('Users');
@@ -96,10 +96,10 @@ export default function AnimalRegister({ }) {
           });
           navigation.navigate("AdoptionList")
       })
+      set
       .catch((error) => {
         console.error("Erro escrita DB: ", error);
       });
-
   }
 
   let openImagePickerAsync = async () => {

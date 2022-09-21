@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, Platform, Image, TouchableOpacity, Text, View, ScrollView } from 'react-native';
+import { KeyboardAvoidingView, Platform, Image, TouchableOpacity, Text, View, ScrollView, RefreshControl } from 'react-native';
 import React from 'react'
 import { StyleSheet } from "react-native";
 import { css } from '../assets/css/Css'
@@ -11,6 +11,15 @@ import Card from '../components/AnimalCard';
 const ListMyAnimals = () => {
   const navigation = useNavigation()
   const [animals, setAnimals] = useState([])
+  const [refresh, setRefresh] = useState(false)
+
+  const pullMe = () => {
+    setRefresh(true)
+    loadData();
+    setTimeout(() => {
+      setRefresh(false)
+    }, 9000)
+  }
 
   const loadData = () => {
     const animalList = [];
@@ -55,7 +64,14 @@ const ListMyAnimals = () => {
       behavior={Platform.OS == "ios" ? "padding" : "height"}
       style={[css.container, specificStyle.specificConteiner]}
     >
-      <ScrollView style={{ width: "95%" }}>
+      <ScrollView style={{ width: "95%" }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refresh}
+            onRefresh={()=>pullMe()}
+          />
+      }
+      >
         <View>
           <FlatList
             data={animals}
